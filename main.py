@@ -6,7 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import json 
 
 
-first_message = "Hello! I am an AI chat assistant trained to assist high school students. I can help answer your questions, provide guidance, and offer academic support. Just ask me anything, and I will do my best to assist you!"
+first_message = "Hello! I am an AI chat assistant. I can help answer your questions, provide guidance, and offer support. Just ask me anything, and I will do my best to assist you!"
 
 # Load the CSV file into a Pandas DataFrame
 
@@ -70,6 +70,7 @@ def create_sidebar():
   questions = filtered_df[['question1','question2','question3','question4','question5']].values[0]
   bool_focus = filtered_df['focus'].values[0]
   str_prompt = filtered_df['prompt'].values[0]
+
 
   st.sidebar.header('Reset Chat') 
   reset_chat = st.sidebar.button('Reset Chat')
