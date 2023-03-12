@@ -1,12 +1,36 @@
 import streamlit as st
 import pandas as pd
 import openai
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json 
+
 
 first_message = "Hello! I am an AI chat assistant trained to assist high school students. I can help answer your questions, provide guidance, and offer academic support. Just ask me anything, and I will do my best to assist you!"
 
 # Load the CSV file into a Pandas DataFrame
-df = pd.read_csv('courses.csv')
+
+
+
+
+# set up credentials to access the google sheet
+scope = ['https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive']
+cred = json.loads(sheets_cred,strict=False)
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
+gc = gspread.authorize(credentials)
+# open the google sheet
+spreadsheet = gc.open_by_key(rockwood_sheet)
+worksheet = spreadsheet.Sheet1
+# get the values from the sheet
+data = worksheet.get_all_values()
+df = pd.DataFrame(data[1:])
+df.columns = data[0]
 df['subtopic'] = df['subtopic'].fillna('NA')
+
+
+# df = pd.read_csv('courses.csv')
+# df['subtopic'] = df['subtopic'].fillna('NA')
 
 # Define the available courses, topics, and subtopics based on the data in the DataFrame
 available_courses = df['course'].unique()

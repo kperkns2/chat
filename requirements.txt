@@ -1,9 +1,3 @@
-google-auth
-google-auth-oauthlib
-google-auth-httplib2
-google-cloud-speech
-google-cloud-texttospeech
-grpcio
-bokeh
-streamlit-bokeh-events
+gspread
+oauth2client
 openai==0.27.0
