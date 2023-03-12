@@ -16,11 +16,11 @@ first_message = "Hello! I am an AI chat assistant trained to assist high school 
 # set up credentials to access the google sheet
 scope = ['https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive']
-cred = json.loads(sheets_cred,strict=False)
+cred = json.loads(st.secrets['sheets_cred'],strict=False)
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 gc = gspread.authorize(credentials)
 # open the google sheet
-spreadsheet = gc.open_by_key(rockwood_sheet)
+spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 worksheet = spreadsheet.Sheet1
 # get the values from the sheet
 data = worksheet.get_all_values()
