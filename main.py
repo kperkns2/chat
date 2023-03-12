@@ -77,6 +77,7 @@ def create_sidebar():
 
   return questions, course, bool_focus
   st.write(filtered_df)
+  print(filtered_df)
 
 questions, course, bool_focus = create_sidebar()
 
