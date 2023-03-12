@@ -89,6 +89,9 @@ def generate_response():
     focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
   system = str_prompt + focus_statement
   system_message = []
+  st.write('system')
+  st.write(system)
+  st.write(len(system))
   if len(system) > 2:
     system_message = [{"role": "system", "content": system}]
   import streamlit as st 
