@@ -75,9 +75,12 @@ def create_sidebar():
   if reset_chat:
     st.session_state['chat_history'] = st.session_state['chat_history'][:1]
 
-  return questions, course, bool_focus
+  st.write(focus)  
   st.write(filtered_df)
   print(filtered_df)
+
+  return questions, course, bool_focus
+
 
 questions, course, bool_focus = create_sidebar()
 
