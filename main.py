@@ -21,7 +21,7 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 gc = gspread.authorize(credentials)
 # open the google sheet
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
-worksheet = spreadsheet.Sheet1
+worksheet = spreadsheet.sheet1
 # get the values from the sheet
 data = worksheet.get_all_values()
 df = pd.DataFrame(data[1:])
