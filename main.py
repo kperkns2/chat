@@ -88,11 +88,14 @@ def generate_response():
   if bool_focus == 'TRUE':
     focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
   system = str_prompt + focus_statement
+  system_message = []
+  if len(system) > 2:
+    system_message = [{"role": "system", "content": system}]
   import streamlit as st 
   openai.api_key = st.secrets['openai_api_key']
   completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo", 
-    messages=[{"role": "system", "content": system}] + st.session_state['chat_history']
+    messages= system_message + st.session_state['chat_history']
   )
   response = completion['choices'][0]['message']['content']
 
