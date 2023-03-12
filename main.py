@@ -69,16 +69,17 @@ def create_sidebar():
 
   questions = filtered_df[['question1','question2','question3','question4','question5']].values[0]
   bool_focus = filtered_df['focus'].values[0]
+  str_prompt = filtered_df['prompt'].values[0]
 
   st.sidebar.header('Reset Chat') 
   reset_chat = st.sidebar.button('Reset Chat')
   if reset_chat:
     st.session_state['chat_history'] = st.session_state['chat_history'][:1]
 
-  return questions, course, bool_focus
+  return questions, course, bool_focus, str_prompt
 
 
-questions, course, bool_focus = create_sidebar()
+questions, course, bool_focus, str_prompt = create_sidebar()
 
 
 
@@ -86,7 +87,7 @@ def generate_response():
   focus_statement = ""
   if bool_focus == 'TRUE':
     focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
-  system = f"""You are a high school tutor. You can help answer questions any questions that the student has. Keep your responses short.""" + focus_statement
+  system = str_prompt + focus_statement
   import streamlit as st 
   openai.api_key = st.secrets['openai_api_key']
   completion = openai.ChatCompletion.create(
