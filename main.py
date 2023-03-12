@@ -75,10 +75,6 @@ def create_sidebar():
   if reset_chat:
     st.session_state['chat_history'] = st.session_state['chat_history'][:1]
 
-  st.write(bool_focus)  
-  st.write(filtered_df)
-  print(filtered_df)
-
   return questions, course, bool_focus
 
 
@@ -88,7 +84,7 @@ questions, course, bool_focus = create_sidebar()
 
 def generate_response():
   focus_statement = ""
-  if bool_focus == 'FALSE':
+  if bool_focus == 'TRUE':
     focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
   system = f"""You are a high school tutor. You can help answer questions any questions that the student has. Keep your responses short.""" + focus_statement
   import streamlit as st 
