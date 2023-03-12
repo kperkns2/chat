@@ -94,7 +94,7 @@ def generate_response():
   st.write(len(system))
   if len(system) > 2:
     system_message = [{"role": "system", "content": system}]
-  import streamlit as st 
+  
   openai.api_key = st.secrets['openai_api_key']
   completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo", 
