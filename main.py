@@ -83,8 +83,8 @@ questions, course, bool_focus = create_sidebar()
 
 def generate_response():
   focus_statement = ""
-  if bool_focus:
-    focus_statement = " You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
+  if bool_focus == 'FALSE':
+    focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
   system = f"""You are a high school tutor. You can help answer questions any questions that the student has. Keep your responses short.""" + focus_statement
   import streamlit as st 
   openai.api_key = st.secrets['openai_api_key']
