@@ -92,6 +92,7 @@ def generate_response():
   st.write('system')
   st.write(system)
   st.write(len(system))
+  st.write(st.session_state['chat_history'])
   if len(system) > 2:
     system_message = [{"role": "system", "content": system}]
   
