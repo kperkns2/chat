@@ -158,7 +158,7 @@ if len(st.session_state['chat_history']) != 1:
 
 try:
   if user_question_button:
-    user_question = user_question_button
+    st.session_state.user_question = user_question_button
 except:
   pass
 
