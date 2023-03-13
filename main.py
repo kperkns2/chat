@@ -5,12 +5,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
 
-
-first_message = "Hello! I am an AI chat assistant. I can help answer your questions, provide guidance, and offer support. Just ask me anything, and I will do my best to assist you!"
+first_message = ''
 
 # Load the CSV file into a Pandas DataFrame
-
-
 
 
 # set up credentials to access the google sheet
@@ -37,9 +34,7 @@ available_courses = df['course'].unique()
 available_topics = df['topic'].unique()
 available_subtopics = df['subtopic'].unique()
 
-# Create a list to store the chat history
-if 'chat_history' not in st.session_state:
-  st.session_state['chat_history'] = [{'role': 'assistant', 'content': first_message}]
+
 
 # Create a function to add messages to the chat history
 def add_to_chat_history(sender, message):
@@ -67,23 +62,29 @@ def create_sidebar():
 
   course = filtered_df['course'].values[0]
 
+  
   questions = filtered_df[['question1','question2','question3','question4','question5']].values[0]
   questions = [q for q in questions if len(q) > 2]
 
   bool_focus = filtered_df['focus'].values[0]
+  first_message = filtered_df['first_message'].values[0]
   str_prompt = filtered_df['prompt'].values[0]
 
 
   st.sidebar.header('Reset Chat') 
   reset_chat = st.sidebar.button('Reset Chat')
   if reset_chat:
-    st.session_state['chat_history'] = st.session_state['chat_history'][:1]
+    st.session_state['chat_history'] = [{'role': 'assistant', 'content': first_message}]
 
-  return questions, course, bool_focus, str_prompt
+  return questions, course, bool_focus, str_prompt, first_message
 
 
-questions, course, bool_focus, str_prompt = create_sidebar()
+questions, course, bool_focus, str_prompt, first_message = create_sidebar()
 
+
+# Create a list to store the chat history
+if 'chat_history' not in st.session_state:
+  st.session_state['chat_history'] = [{'role': 'assistant', 'content': first_message}]
 
 
 def generate_response():
