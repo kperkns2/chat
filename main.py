@@ -166,7 +166,7 @@ except:
 # Handle user input
 if len(st.session_state.user_question) > 0:
     # Add the user's question to the chat history
-    add_to_chat_history('user', user_question)
+    add_to_chat_history('user', st.session_state.user_question)
 
     # TODO: Add code to handle the user's question and generate a response
 
