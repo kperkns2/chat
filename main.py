@@ -6,7 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import json 
 
 first_message = ''
-if user_question not in st.session_state:
+if 'user_question' not in st.session_state:
   st.session_state.user_question = ''
 
 # Load the CSV file into a Pandas DataFrame
