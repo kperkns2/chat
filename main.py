@@ -123,11 +123,7 @@ def display_chat_history():
       else:
           st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><b>Tutor - </b>{message['content']}</div>", unsafe_allow_html=True)
 
-def create_question_input():
-  # Display the input field for the user's question
-  # st.header('Enter Question Below')
-  user_question = st.text_input(label='Type a question...')
-  return user_question
+
 
 def show_example_questions(): 
   # Display the example questions
@@ -145,7 +141,12 @@ st.write("#")
 st.markdown("---") 
 st.write("#")
 
-user_question = create_question_input()
+
+def submit():
+    st.session_state.user_question = st.session_state.question_widget
+    st.session_state.question_widget = ''
+
+user_question = st.text_input(label='Type here...', key='question_widget', on_change=submit)
 
 placeholder_user_question_button = st.empty()
 with placeholder_user_question_button.container():
@@ -161,7 +162,7 @@ except:
   pass
 
 # Handle user input
-if user_question:
+if len(st.session_state.user_question) > 0:
     # Add the user's question to the chat history
     add_to_chat_history('user', user_question)
 
@@ -176,10 +177,11 @@ if user_question:
 
     add_to_chat_history('assistant', agent_response)
 
-
     placeholder_chat_history.empty()
     with placeholder_chat_history.container():
       display_chat_history()
+    st.session_state.user_question = ''
+    
 
 
 
