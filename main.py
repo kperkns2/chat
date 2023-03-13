@@ -68,6 +68,7 @@ def create_sidebar():
   course = filtered_df['course'].values[0]
 
   questions = filtered_df[['question1','question2','question3','question4','question5']].values[0]
+  questions = [q for q in questions if len(q) > 2]
   bool_focus = filtered_df['focus'].values[0]
   str_prompt = filtered_df['prompt'].values[0]
 
