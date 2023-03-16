@@ -28,6 +28,9 @@ df.columns = data[0]
 df['subtopic'] = df['subtopic'].fillna('NA')
 
 
+worksheet_c = spreadsheet.worksheet('conversations')
+worksheet_c.update_cell(1, 1, "Hello")
+
 # df = pd.read_csv('courses.csv')
 # df['subtopic'] = df['subtopic'].fillna('NA')
 
