@@ -29,7 +29,6 @@ def get_prompts():
   df['subtopic'] = df['subtopic'].fillna('NA')
   return gc, df
 
-
 gc, df = get_prompts()
 
 # df = pd.read_csv('courses.csv')
