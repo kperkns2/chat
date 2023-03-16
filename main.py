@@ -55,7 +55,7 @@ def post_conversation():
                   "blue": 1.0
               }
           }
-          worksheet.update_cell(i, st.session_state.col_num, f"Student - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.col_num, f"Student - {message['content']}")
       else:
           cell_format = {
               "backgroundColor": {
@@ -64,7 +64,7 @@ def post_conversation():
                   "blue": 0.97
               }
           }
-          worksheet.update_cell(i, st.session_state.col_num, f"Tutor - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.col_num, f"Tutor - {message['content']}")
 
 
 
