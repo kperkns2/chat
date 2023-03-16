@@ -11,25 +11,27 @@ if 'user_question' not in st.session_state:
 
 # Load the CSV file into a Pandas DataFrame
 
+# set up credentials to access the google sheet
+scope = ['https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive']
+cred = json.loads(st.secrets['sheets_cred'],strict=False)
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
+gc = gspread.authorize(credentials)
+# open the google sheet
+spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
+
+
 @st.cache_data
 def get_prompts():
-  # set up credentials to access the google sheet
-  scope = ['https://spreadsheets.google.com/feeds',
-          'https://www.googleapis.com/auth/drive']
-  cred = json.loads(st.secrets['sheets_cred'],strict=False)
-  credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
-  gc = gspread.authorize(credentials)
-  # open the google sheet
-  spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
   worksheet = spreadsheet.sheet1
   # get the values from the sheet
   data = worksheet.get_all_values()
   df = pd.DataFrame(data[1:])
   df.columns = data[0]
   df['subtopic'] = df['subtopic'].fillna('NA')
-  return gc, df
+  return df
 
-gc, df = get_prompts()
+df = get_prompts()
 
 # df = pd.read_csv('courses.csv')
 # df['subtopic'] = df['subtopic'].fillna('NA')
