@@ -11,7 +11,7 @@ if 'user_question' not in st.session_state:
 
 # Load the CSV file into a Pandas DataFrame
 
-
+@st.cache_data
 def get_prompts():
   # set up credentials to access the google sheet
   scope = ['https://spreadsheets.google.com/feeds',
@@ -29,8 +29,9 @@ def get_prompts():
   df['subtopic'] = df['subtopic'].fillna('NA')
   return gc, df
 
-@st.cache_data
+
 gc, df = get_prompts()
+
 # df = pd.read_csv('courses.csv')
 # df['subtopic'] = df['subtopic'].fillna('NA')
 
