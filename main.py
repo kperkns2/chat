@@ -37,6 +37,38 @@ available_topics = df['topic'].unique()
 available_subtopics = df['subtopic'].unique()
 
 
+def post_conversation():
+  # Open the Google Sheet
+  spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
+  worksheet = spreadsheet.worksheet('conversations')
+
+  # Find the first empty column
+  if 'col_num' not in st.session_state:
+    st.session_state.col_num = len(worksheet.row_values(1)) + 1
+  # Write the chat history
+  for i,message in enumerate(st.session_state['chat_history']):
+      if message['role'] == 'user':
+          cell_format = {
+              "backgroundColor": {
+                  "red": 1.0,
+                  "green": 1.0,
+                  "blue": 1.0
+              }
+          }
+          worksheet.update_cell(i, st.session_state.col_num, f"Student - {message['content']}", value_input_option='USER_ENTERED', cell_format=cell_format)
+      else:
+          cell_format = {
+              "backgroundColor": {
+                  "red": 0.97,
+                  "green": 0.97,
+                  "blue": 0.97
+              }
+          }
+          worksheet.update_cell(i, st.session_state.col_num, f"Tutor - {message['content']}", value_input_option='USER_ENTERED', cell_format=cell_format)
+
+
+
+
 
 # Create a function to add messages to the chat history
 def add_to_chat_history(sender, message):
@@ -118,6 +150,7 @@ def generate_response():
 
 
 def display_chat_history():
+  post_conversation()
   st.header('High School Chatbot')
   for message in st.session_state['chat_history']:
       if message['role'] == 'user':
