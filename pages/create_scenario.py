@@ -67,9 +67,9 @@ else:
 mygrid = make_grid(len(filtered_scenarios_df), 4)
 
 for index, row in filtered_scenarios_df.iterrows():
-    question_input = mygrid[index][0].text_input(f"Question {index}", row['Question'], label_visibility='hidden')
-    hint_input = mygrid[index][1].text_input(f"Hint {index}", row['Hint'], label_visibility='hidden')
-    answer_input = mygrid[index][2].text_input(f"Answer {index}", row['Answer'], label_visibility='hidden')
+    question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
+    hint_input = mygrid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
+    answer_input = mygrid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
 
     #edit_button = mygrid[index][3].button("Edit", on_click=partial(edit_callback, index))
     #duplicate_button = mygrid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
