@@ -29,7 +29,7 @@ if 'scenarios_df' not in st.session_state:
 # Initialize assignment_df as an empty DataFrame with the same columns as scenarios_df
 if 'assignment_df' not in st.session_state:
   st.session_state['assignment_df'] = pd.DataFrame(columns=st.session_state['scenarios_df'].columns)
-
+  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
 
 
 st.title("Create a new scenario")
@@ -73,7 +73,7 @@ else:
 
 
 assignment_grid = make_grid(len(filtered_scenarios_df), 4)
-for index, row in filtered_scenarios_df.iterrows():
+for index, row in st.session_state['assignment_df'].iterrows():
     question_input = assignment_grid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
     hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
     answer_input = assignment_grid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
