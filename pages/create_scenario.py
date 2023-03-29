@@ -115,8 +115,7 @@ for index, row in filtered_scenarios_df.iterrows():
       add_to_assignment_button = st.button("Add", on_click=partial(add_to_assignment_callback, index), key=f'delete_{index}')
 
 
-_ = """
-for index, row in filtered_scenarios_df.iterrows():
+_ = """for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
     hint_input = mygrid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
     answer_input = mygrid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
