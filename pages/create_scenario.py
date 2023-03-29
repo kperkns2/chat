@@ -68,7 +68,7 @@ def add_to_assignment_callback(row_index):
 if len(search_string) > 0:
   filtered_scenarios_df = st.session_state['scenarios_df'][st.session_state['scenarios_df']['Question'].str.contains(search_string)]
 else:
-  filtered_scenarios_df = scenarios_df
+  filtered_scenarios_df = st.session_state['scenarios_df']
 mygrid = make_grid(len(filtered_scenarios_df), 4)
 
 
