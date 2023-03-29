@@ -65,14 +65,10 @@ def add_to_assignment_callback(row_index):
     st.write(f"Added row {row_index} to assignment")
 
 
-if len(search_string) > 0:
-  filtered_scenarios_df = st.session_state['scenarios_df'][st.session_state['scenarios_df']['Question'].str.contains(search_string)]
-else:
-  filtered_scenarios_df = st.session_state['scenarios_df']
 
 
-
-assignment_grid = make_grid(len(filtered_scenarios_df), 4)
+#### Assignment Grid
+assignment_grid = make_grid(len(st.session_state['assignment_df']), 4)
 for index, row in st.session_state['assignment_df'].iterrows():
     question_input = assignment_grid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
     hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
@@ -84,12 +80,20 @@ for index, row in st.session_state['assignment_df'].iterrows():
     #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
 
 
+
 if st.button('Add Question'):
   add_blank_question()
 
 
+#### Available Questions Grid
 st.header('Available Questions')
 search_string = st.text_input("Search for questions:")
+if len(search_string) > 0:
+  filtered_scenarios_df = st.session_state['scenarios_df'][st.session_state['scenarios_df']['Question'].str.contains(search_string)]
+else:
+  filtered_scenarios_df = st.session_state['scenarios_df']
+
+
 mygrid = make_grid(len(filtered_scenarios_df), 4)
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
