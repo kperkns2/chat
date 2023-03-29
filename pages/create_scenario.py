@@ -80,7 +80,7 @@ for index, row in filtered_scenarios_df.iterrows():
 
     #edit_button = assignment_grid[index][3].button("Edit", on_click=partial(edit_callback, index))
     #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
-    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index))
+    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
     #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
 
 
