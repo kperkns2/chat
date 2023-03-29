@@ -103,14 +103,14 @@ for index, row in filtered_scenarios_df.iterrows():
     with questions_grid[index][0]:
         t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
         with t1:
-            question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}', label_visibility='hidden')        
+            question_input = st.text_area(f"Question {index}", row['Question'], key=f'base_question_{index}', label_visibility='hidden')        
         with t2:
-            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}', label_visibility='hidden')
+            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'base_hint_{index}', label_visibility='hidden')
         with t3:
-            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}', label_visibility='hidden')
+            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'base_answer_{index}', label_visibility='hidden')
 
     with questions_grid[index][1]:
-      add_to_assignment_button = st.button("Add", on_click=partial(add_to_assignment_callback, index), key=f'delete_{index}')
+      add_to_assignment_button = st.button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
 
 
 _ = """for index, row in filtered_scenarios_df.iterrows():
