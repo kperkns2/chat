@@ -12,7 +12,7 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 
 # Authorize and open the Google Sheet
 gc = gspread.authorize(credentials)
-spreadsheet = gc.open_by_key(st.secrets['saved_scenarios'])
+spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 def fetch_scenarios():
     worksheet = spreadsheet.mls
