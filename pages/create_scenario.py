@@ -83,42 +83,6 @@ for index, row in st.session_state['assignment_df'].iterrows():
       delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
 
 
-_ = """
-
-#### Assignment Grid
-assignment_grid = make_grid(len(st.session_state['assignment_df']), 4)
-for index, row in st.session_state['assignment_df'].iterrows():
-    t1,t2,t3 = st.tabs(['Question','Hint','Answer']):
-    with t1:
-      question_input = .text_area(f"Question {index}", row['Question'], label_visibility='hidden')
-    hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
-    answer_input = assignment_grid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
-
-    #edit_button = assignment_grid[index][3].button("Edit", on_click=partial(edit_callback, index))
-    #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
-    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
-    #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
-    
-
-t1,t2,t3 = st.tabs(['Question','Hint','Answer']):
-    with t1:
-      
-
-
-
-#### Assignment Grid
-assignment_grid = make_grid(len(st.session_state['assignment_df']), 4)
-for index, row in st.session_state['assignment_df'].iterrows():
-    question_input = assignment_grid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
-    hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
-    answer_input = assignment_grid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
-
-    #edit_button = assignment_grid[index][3].button("Edit", on_click=partial(edit_callback, index))
-    #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
-    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
-    #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
-"""
-
 if st.button('Add Question'):
   add_blank_question()
 
@@ -133,6 +97,25 @@ else:
 
 
 mygrid = make_grid(len(filtered_scenarios_df), 4)
+
+questions_grid = make_grid(len(filtered_scenarios_df, 2)
+
+for index, row in filtered_scenarios_df.iterrows():
+    # Create tabs for each row
+    with questions_grid[index][0]:
+        t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
+        with t1:
+            question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}', label_visibility='hidden')        
+        with t2:
+            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}', label_visibility='hidden')
+        with t3:
+            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}', label_visibility='hidden')
+
+    with questions_grid[index][1]:
+      add_to_assignment_button = st.button("Add", on_click=partial(add_to_assignment_callback, index), key=f'delete_{index}')
+
+
+_ = """
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
     hint_input = mygrid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
@@ -141,4 +124,4 @@ for index, row in filtered_scenarios_df.iterrows():
     #edit_button = mygrid[index][3].button("Edit", on_click=partial(edit_callback, index))
     #duplicate_button = mygrid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
     #delete_button = mygrid[index][5].button("Delete", on_click=partial(delete_callback, index))
-    add_to_assignment_button = mygrid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
+    add_to_assignment_button = mygrid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')"""
