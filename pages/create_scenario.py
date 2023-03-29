@@ -36,12 +36,8 @@ if 'assignment_df' not in st.session_state:
   add_blank_question()
 
 
-st.title("Create a new scenario")
-st.write("Here is where you add questions to a new chat scenario.")
+st.title("New Scenario")
 
-
-
-search_string = st.text_input("Search for questions:")
 
 def make_grid(cols, rows):
     grid = [0] * cols
@@ -93,7 +89,7 @@ if st.button('Add Question'):
 
 
 st.header('Available Questions')
-
+search_string = st.text_input("Search for questions:")
 mygrid = make_grid(len(filtered_scenarios_df), 4)
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
