@@ -15,7 +15,7 @@ gc = gspread.authorize(credentials)
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 def fetch_scenarios():
-    worksheet = spreadsheet.mls
+    worksheet = spreadsheet.worksheet('mls')
     data = worksheet.get_all_values()
     df = pd.DataFrame(data[1:])
     df.columns = data[0]
