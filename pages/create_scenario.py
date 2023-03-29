@@ -26,10 +26,14 @@ def fetch_scenarios():
 if 'scenarios_df' not in st.session_state:
   st.session_state['scenarios_df'] = fetch_scenarios()
 
+def add_blank_question():
+  new_row = pd.Series(['' for _ in range(len(st.session_state['assignment_df'].columns))], index=st.session_state['assignment_df'].columns)
+  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(new_row, ignore_index=True)
+
 # Initialize assignment_df as an empty DataFrame with the same columns as scenarios_df
 if 'assignment_df' not in st.session_state:
   st.session_state['assignment_df'] = pd.DataFrame(columns=st.session_state['scenarios_df'].columns)
-  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(pd.Series(), ignore_index=True)
+  add_blank_question()
 
 
 st.title("Create a new scenario")
@@ -85,8 +89,7 @@ for index, row in st.session_state['assignment_df'].iterrows():
 
 
 if st.button('Add Question'):
-  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(pd.Series(), ignore_index=True)
-  #st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
+  add_blank_question()
 
 
 st.header('Available Questions')
