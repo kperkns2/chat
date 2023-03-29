@@ -64,14 +64,14 @@ if len(search_string) > 0:
   filtered_scenarios_df = scenarios_df[scenarios_df['Question'].str.contains(search_string)]
 else:
   filtered_scenarios_df = scenarios_df
-mygrid = make_grid(len(filtered_scenarios_df), 7)
+mygrid = make_grid(len(filtered_scenarios_df), 4)
 
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_input(f"Question {index}", row['Question'])
     hint_input = mygrid[index][1].text_input(f"Hint {index}", row['Hint'])
     answer_input = mygrid[index][2].text_input(f"Answer {index}", row['Answer'])
 
-    edit_button = mygrid[index][3].button("Edit", on_click=partial(edit_callback, index))
-    duplicate_button = mygrid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
-    delete_button = mygrid[index][5].button("Delete", on_click=partial(delete_callback, index))
-    add_to_assignment_button = mygrid[index][6].button("Add To Assignment", on_click=partial(add_to_assignment_callback, index))
+    #edit_button = mygrid[index][3].button("Edit", on_click=partial(edit_callback, index))
+    #duplicate_button = mygrid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
+    #delete_button = mygrid[index][5].button("Delete", on_click=partial(delete_callback, index))
+    add_to_assignment_button = mygrid[index][6].button("Add", on_click=partial(add_to_assignment_callback, index), label=f'add_{index}')
