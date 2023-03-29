@@ -74,4 +74,4 @@ for index, row in filtered_scenarios_df.iterrows():
     #edit_button = mygrid[index][3].button("Edit", on_click=partial(edit_callback, index))
     #duplicate_button = mygrid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
     #delete_button = mygrid[index][5].button("Delete", on_click=partial(delete_callback, index))
-    add_to_assignment_button = mygrid[index][6].button("Add", on_click=partial(add_to_assignment_callback, index), label=f'add_{index}')
+    add_to_assignment_button = mygrid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), label=f'add_{index}')
