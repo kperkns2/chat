@@ -23,10 +23,19 @@ def fetch_scenarios():
     return df
 
 # Fetch saved scenarios from the Google Sheet
-scenarios_df = fetch_scenarios()
+if 'scenarios_df' not in st.session_state:
+  st.session_state['scenarios_df'] = fetch_scenarios()
 
-st.title("Chat Scenarios")
-st.write("Here's a list of your saved chat scenarios:")
+# Initialize assignment_df as an empty DataFrame with the same columns as scenarios_df
+if 'assignment_df' not in st.session_state:
+  st.session_state['assignment_df'] = pd.DataFrame(columns=st.session_state['scenarios_df'].columns)
+
+
+
+st.title("Create a new scenario")
+st.write("Here is where you add questions to a new chat scenario.")
+
+
 
 search_string = st.text_input("Search for questions:")
 
@@ -41,31 +50,30 @@ def edit_callback(row_index):
     st.write(f"Editing row {row_index}")
 
 def duplicate_callback(row_index):
-    global scenarios_df
-    row_data = scenarios_df.loc[row_index].copy()
-    scenarios_df = scenarios_df.append(row_data, ignore_index=True)
-    scenarios_df = scenarios_df.reset_index(drop=True)
+    row_data = st.session_state['scenarios_df'].loc[row_index].copy()
+    st.session_state['scenarios_df'] = st.session_state['scenarios_df'].append(row_data, ignore_index=True)
+    st.session_state['scenarios_df'] = st.session_state['scenarios_df'].reset_index(drop=True)
     st.experimental_rerun()
 
 def delete_callback(row_index):
-    global scenarios_df
-    scenarios_df = scenarios_df.drop(row_index).reset_index(drop=True)
+    st.session_state['scenarios_df'] = st.session_state['scenarios_df'].drop(row_index).reset_index(drop=True)
     st.experimental_rerun()
 
 def add_to_assignment_callback(row_index):
-    global assignment_df
-    row_data = scenarios_df.loc[row_index]
-    assignment_df = assignment_df.append(row_data, ignore_index=True)
+    row_data = st.session_state['scenarios_df'].loc[row_index]
+    st.session_state['assignment_df'] = st.session_state['assignment_df'].append(row_data, ignore_index=True)
     st.write(f"Added row {row_index} to assignment")
 
-# Initialize assignment_df as an empty DataFrame with the same columns as scenarios_df
-assignment_df = pd.DataFrame(columns=scenarios_df.columns)
 
 if len(search_string) > 0:
-  filtered_scenarios_df = scenarios_df[scenarios_df['Question'].str.contains(search_string)]
+  filtered_scenarios_df = st.session_state['scenarios_df'][st.session_state['scenarios_df']['Question'].str.contains(search_string)]
 else:
   filtered_scenarios_df = scenarios_df
 mygrid = make_grid(len(filtered_scenarios_df), 4)
+
+
+
+st.header('Available Questions')
 
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
