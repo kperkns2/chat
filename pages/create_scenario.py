@@ -98,7 +98,7 @@ else:
 
 mygrid = make_grid(len(filtered_scenarios_df), 4)
 
-questions_grid = make_grid(len(filtered_scenarios_df, 2)
+questions_grid = make_grid(len(filtered_scenarios_df, 2))
 
 for index, row in filtered_scenarios_df.iterrows():
     # Create tabs for each row
