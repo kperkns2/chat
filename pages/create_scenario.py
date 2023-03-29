@@ -73,11 +73,11 @@ for index, row in st.session_state['assignment_df'].iterrows():
     with assignment_grid[index][0]:
         t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
         with t1:
-            question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}')        
+            question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}', label_visibility='hidden')        
         with t2:
-            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}')
+            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}', label_visibility='hidden')
         with t3:
-            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}')
+            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}', label_visibility='hidden')
 
     with assignment_grid[index][1]:
       delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
