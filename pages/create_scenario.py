@@ -29,7 +29,7 @@ if 'scenarios_df' not in st.session_state:
 # Initialize assignment_df as an empty DataFrame with the same columns as scenarios_df
 if 'assignment_df' not in st.session_state:
   st.session_state['assignment_df'] = pd.DataFrame(columns=st.session_state['scenarios_df'].columns)
-  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
+  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(pd.Series(), ignore_index=True)
 
 
 st.title("Create a new scenario")
@@ -85,7 +85,8 @@ for index, row in st.session_state['assignment_df'].iterrows():
 
 
 if st.button('Add Question'):
-  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
+  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(pd.Series(), ignore_index=True)
+  #st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
 
 
 st.header('Available Questions')
