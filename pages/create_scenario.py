@@ -35,9 +35,7 @@ if 'assignment_df' not in st.session_state:
   st.session_state['assignment_df'] = pd.DataFrame(columns=st.session_state['scenarios_df'].columns)
   add_blank_question()
 
-
 st.title("New Scenario")
-
 
 def make_grid(cols, rows):
     grid = [0] * cols
@@ -67,6 +65,47 @@ def add_to_assignment_callback(row_index):
 
 
 
+# Create the assignment grid
+assignment_grid = make_grid(len(st.session_state['assignment_df']), 2)
+
+for index, row in st.session_state['assignment_df'].iterrows():
+    # Create tabs for each row
+    with assignment_grid[index][0]:
+        t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
+        with t1:
+            question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}')        
+        with t2:
+            hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}')
+        with t3:
+            answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}')
+
+    with assignment_grid[index][1]:
+      delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
+
+
+_ = """
+
+#### Assignment Grid
+assignment_grid = make_grid(len(st.session_state['assignment_df']), 4)
+for index, row in st.session_state['assignment_df'].iterrows():
+    t1,t2,t3 = st.tabs(['Question','Hint','Answer']):
+    with t1:
+      question_input = .text_area(f"Question {index}", row['Question'], label_visibility='hidden')
+    hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
+    answer_input = assignment_grid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
+
+    #edit_button = assignment_grid[index][3].button("Edit", on_click=partial(edit_callback, index))
+    #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
+    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
+    #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
+    
+
+t1,t2,t3 = st.tabs(['Question','Hint','Answer']):
+    with t1:
+      
+
+
+
 #### Assignment Grid
 assignment_grid = make_grid(len(st.session_state['assignment_df']), 4)
 for index, row in st.session_state['assignment_df'].iterrows():
@@ -78,8 +117,7 @@ for index, row in st.session_state['assignment_df'].iterrows():
     #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
     delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
     #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
-
-
+"""
 
 if st.button('Add Question'):
   add_blank_question()
