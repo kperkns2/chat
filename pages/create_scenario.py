@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
