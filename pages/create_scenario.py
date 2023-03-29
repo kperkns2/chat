@@ -56,7 +56,7 @@ def duplicate_callback(row_index):
     st.experimental_rerun()
 
 def delete_callback(row_index):
-    st.session_state['scenarios_df'] = st.session_state['scenarios_df'].drop(row_index).reset_index(drop=True)
+    st.session_state['assignment_df'] = st.session_state['assignment_df'].drop(row_index).reset_index(drop=True)
     st.experimental_rerun()
 
 def add_to_assignment_callback(row_index):
@@ -69,12 +69,28 @@ if len(search_string) > 0:
   filtered_scenarios_df = st.session_state['scenarios_df'][st.session_state['scenarios_df']['Question'].str.contains(search_string)]
 else:
   filtered_scenarios_df = st.session_state['scenarios_df']
-mygrid = make_grid(len(filtered_scenarios_df), 4)
 
+
+
+assignment_grid = make_grid(len(filtered_scenarios_df), 4)
+for index, row in filtered_scenarios_df.iterrows():
+    question_input = assignment_grid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
+    hint_input = assignment_grid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
+    answer_input = assignment_grid[index][2].text_area(f"Answer {index}", row['Answer'], label_visibility='hidden')
+
+    #edit_button = assignment_grid[index][3].button("Edit", on_click=partial(edit_callback, index))
+    #duplicate_button = assignment_grid[index][4].button("Duplicate", on_click=partial(duplicate_callback, index))
+    delete_button = assignment_grid[index][3].button("Delete", on_click=partial(delete_callback, index))
+    #add_to_assignment_button = assignment_grid[index][3].button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
+
+
+if st.button('Add Question'):
+  st.session_state['assignment_df'] = st.session_state['assignment_df'].append(['']*len(st.session_state['assignment_df'].columns()), ignore_index=True)
 
 
 st.header('Available Questions')
 
+mygrid = make_grid(len(filtered_scenarios_df), 4)
 for index, row in filtered_scenarios_df.iterrows():
     question_input = mygrid[index][0].text_area(f"Question {index}", row['Question'], label_visibility='hidden')
     hint_input = mygrid[index][1].text_area(f"Hint {index}", row['Hint'], label_visibility='hidden')
