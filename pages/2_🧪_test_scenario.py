@@ -1,6 +1,10 @@
 import streamlit as st
 st.set_page_config(layout="wide",page_title="Test Scenario",page_icon="💬")
 
+if 'user_question' not in st.session_state:
+  st.session_state.user_question = ''
+
+  
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
