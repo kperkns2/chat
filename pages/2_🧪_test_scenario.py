@@ -1,4 +1,10 @@
 import streamlit as st
+import streamlit as st
+import pandas as pd
+import openai
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json 
 st.set_page_config(layout="wide",page_title="Test Scenario",page_icon="💬")
 
 if 't_user_question' not in st.session_state:
