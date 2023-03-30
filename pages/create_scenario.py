@@ -62,7 +62,32 @@ def add_to_assignment_callback(row_index):
     st.session_state['assignment_df'] = st.session_state['assignment_df'].append(row_data, ignore_index=True)
     st.write(f"Added row {row_index} to assignment")
 
+def delete_and_save_to_sheet(tab_name, dataframe):
+    """
+    Deletes all data in a Google Spreadsheet tab and saves a Pandas DataFrame to that same tab.
 
+    :param credentials: Google API credentials
+    :param sheet_key: Google Sheet key
+    :param tab_name: Name of the tab in the Google Sheet
+    :param dataframe: Pandas DataFrame to be saved to the Google Sheet
+    """
+
+    try:
+        worksheet = spreadsheet.worksheet(tab_name)
+    except gspread.exceptions.WorksheetNotFound:
+        # Create a new worksheet with the specified name if it doesn't exist
+        worksheet = spreadsheet.add_worksheet(title=tab_name, rows=dataframe.shape[0], cols=dataframe.shape[1])
+
+    # Clear all data in the worksheet
+    worksheet.clear()
+
+    # Save the DataFrame to the cleared worksheet
+    set_with_dataframe(worksheet, dataframe)
+
+def save_scenario():
+  final_assignment = st.session_state['assignment_df']
+  final_assignment = final_assignment[final_assignment['Question'].str.len()!=0]
+  delete_and_save_to_sheet('temp_assignment', final_assignment)
 
 
 # Create the assignment grid
@@ -84,9 +109,17 @@ for index, row in st.session_state['assignment_df'].iterrows():
         st.write('')
       delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
 
+bt1,bt2 = st.columns(rows)
 
-if st.button('Add Question'):
-  add_blank_question()
+
+
+
+with bt1:
+  if st.button('Add Question'):
+    add_blank_question()
+with bt2:
+  if st.button('Save Scenario'):
+    save_scenario()
 
 
 #### Available Questions Grid
