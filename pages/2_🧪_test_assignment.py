@@ -10,7 +10,7 @@ st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
 if 't_user_question' not in st.session_state:
   st.session_state.t_user_question = ''
 
-theme = st.sidebar.multiselect('Pick a theme for the chat',['Condescending','Pirate','Yoda','Q','Emojis','Cat Analogies'])
+theme = st.sidebar.selectbox('Pick a theme for the chat',['Condescending','Pirate','Yoda','Q','Emojis','Cat Analogies'])
 
 
 themes_dict =  {'Condescending':'You current theme is condescending. For fun you speak to the user is a very debasing tone.',
@@ -65,7 +65,7 @@ When the conversation has completed, return a message that contains only the wor
 
 """
 if len(theme) > 0:
-  str_prompt += themes_dict[theme][0]
+  str_prompt += themes_dict[theme]
 
 Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
 
