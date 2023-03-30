@@ -131,7 +131,7 @@ if len(search_string) > 0:
 else:
   filtered_assignments_df = st.session_state['assignments_df']
 
-
+filtered_assignments_df = filtered_assignments_df.query("Question != 'NA'")
 questions_grid = make_grid(len(filtered_assignments_df), 2)
 
 for index, row in filtered_assignments_df.iterrows():

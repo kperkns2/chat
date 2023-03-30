@@ -48,7 +48,8 @@ You will be given a question, hint and answer.
 You begin by asking the question. 
 If the student needs help, you may provide the hint or answer questions without giving away the answer. 
 If the student continues to struggle you may give the answer. 
-When the conversation has completed, return a message that contains only the word end_of_chat
+When the conversation has completed, return a message that contains only the word end_of_chat. 
+Your very first message is the question, ignore the first message from the user.
 """
 
 Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
