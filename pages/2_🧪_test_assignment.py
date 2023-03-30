@@ -62,8 +62,11 @@ You begin by asking the question.
 If the student needs help, you may provide the hint or answer questions without giving away the answer. 
 If the student continues to struggle you may give the answer. 
 When the conversation has completed, return a message that contains only the word end_of_chat.
-
 """
+
+str_prompt += f"""The context of the conversation is {context}
+"""
+
 if len(theme) > 0:
   str_prompt += themes_dict[theme]
 
@@ -71,7 +74,6 @@ Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df']
 
 context = {'Topic':Topic,'MLS_Description':MLS_Description,'Question':Question,'Hint':Hint,'Answer':Answer}
 
-#str_prompt += f"""The context of the conversation is {context}"""
 
 
 
@@ -120,7 +122,6 @@ def generate_response():
     system_message = [{"role": "system", "content": system}]
 
   if st.session_state['t_chat_history'][0]['role'] == 'user':
-    st.write('Here')
     st.session_state['t_chat_history'] = st.session_state['t_chat_history'][1:]
   
   openai.api_key = st.secrets['openai_api_key']
