@@ -64,9 +64,9 @@ If the student continues to struggle you may give the answer.
 When the conversation has completed, return a message that contains only the word end_of_chat.
 
 """
-
 if len(theme) > 0:
-  str_prompt += (themes_dict[theme])
+  st.write(theme)
+  str_prompt += themes_dict[theme]
 
 Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
 
