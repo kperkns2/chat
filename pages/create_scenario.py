@@ -5,6 +5,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 from functools import partial
+from gspread_dataframe import set_with_dataframe
 
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
