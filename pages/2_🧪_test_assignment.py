@@ -76,7 +76,7 @@ def post_conversation():
 
 
 def display_chat_history():
-  post_conversation()
+  #post_conversation()
   st.header('High School Chatbot')
   for message in st.session_state['t_chat_history']:
       if message['role'] == 'user':
