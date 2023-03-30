@@ -10,6 +10,19 @@ st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
 if 't_user_question' not in st.session_state:
   st.session_state.t_user_question = ''
 
+theme = st.sidebar.multiselect('',['Condescending','Pirate','Yoda','Q','Emojis','Cat Analogies'])
+
+
+themes_dict =  {'Condescending':'You current theme is condescending. For fun you speak to the user is a very debasing tone.',
+                'Pirate':'You must say everying in the style of a Pirate',
+                'Yoda':'You must say everying in the style of Yoda',
+                'Q':'You must start as many words as possible with the letter Q',
+                'Emojis':'You must use many relevant emojis',
+                'Cat Analogies':'You frequently use cat analogies to explain concepts'}
+
+
+
+
 
 import pandas as pd
 import gspread
@@ -48,15 +61,17 @@ You will be given a question, hint and answer.
 You begin by asking the question. 
 If the student needs help, you may provide the hint or answer questions without giving away the answer. 
 If the student continues to struggle you may give the answer. 
-When the conversation has completed, return a message that contains only the word end_of_chat. 
-Your very first message is the question, ignore the first message from the user.
+When the conversation has completed, return a message that contains only the word end_of_chat.
+
 """
+
+str_prompt += themes_dict['theme']
 
 Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
 
 context = {'Topic':Topic,'MLS_Description':MLS_Description,'Question':Question,'Hint':Hint,'Answer':Answer}
 
-str_prompt += f"""The context of the conversation is {context}"""
+#str_prompt += f"""The context of the conversation is {context}"""
 
 
 
