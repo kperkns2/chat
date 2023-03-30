@@ -1,10 +1,10 @@
 import streamlit as st
 st.set_page_config(layout="wide",page_title="Test Scenario",page_icon="💬")
 
-if 'user_question' not in st.session_state:
-  st.session_state.user_question = ''
+if 't_user_question' not in st.session_state:
+  st.session_state.t_user_question = ''
 
-  
+
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -29,8 +29,8 @@ def fetch_assignment():
     return df
 
 # Fetch saved scenarios from the Google Sheet
-if 'assignment_df' not in st.session_state:
-  st.session_state['assignment_df'] = fetch_assignment()
+if 't_assignment_df' not in st.session_state:
+  st.session_state['t_assignment_df'] = fetch_assignment()
 
 
 bool_focus = 'TRUE'
@@ -45,7 +45,7 @@ If the student continues to struggle you may give the answer.
 When the conversation has completed, return a message that contains only the word end_of_chat
 """
 
-Topic,MLS_Description,Question,Hint,Answer = st.session_state['assignment_df'].iloc[0]
+Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
 
 context = {'Topic':Topic,'MLS_Description':MLS_Description,'Question':Question,'Hint':Hint,'Answer':Answer}
 
@@ -58,20 +58,20 @@ def post_conversation():
   spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
   worksheet = spreadsheet.worksheet('conversations')
   # Find the first empty column
-  if 'col_num' not in st.session_state:
-    st.session_state.col_num = len(worksheet.row_values(1)) + 1
+  if 't_col_num' not in st.session_state:
+    st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
   # Write the chat history
-  for i,message in enumerate(st.session_state['chat_history']):
+  for i,message in enumerate(st.session_state['t_chat_history']):
       if message['role'] == 'user':
-          worksheet.update_cell(i+1, st.session_state.col_num, f"Student - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
       else:
-          worksheet.update_cell(i+1, st.session_state.col_num, f"Tutor - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.t_col_num, f"Tutor - {message['content']}")
 
 
 def display_chat_history():
   post_conversation()
   st.header('High School Chatbot')
-  for message in st.session_state['chat_history']:
+  for message in st.session_state['t_chat_history']:
       if message['role'] == 'user':
           st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><b>Student - </b>{message['content']}</div>", unsafe_allow_html=True)
       else:
@@ -80,11 +80,11 @@ def display_chat_history():
 
 # Create a function to add messages to the chat history
 def add_to_chat_history(sender, message):
-    st.session_state['chat_history'].append({'role': sender, 'content': message})
+    st.session_state['t_chat_history'].append({'role': sender, 'content': message})
 
 # Create a list to store the chat history
-if 'chat_history' not in st.session_state:
-  st.session_state['chat_history'] = [{'role': 'assistant', 'content': first_message}]
+if 't_chat_history' not in st.session_state:
+  st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_message}]
 
 
 def generate_response():
@@ -100,7 +100,7 @@ def generate_response():
   openai.api_key = st.secrets['openai_api_key']
   completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo", 
-    messages= system_message + st.session_state['chat_history']
+    messages= system_message + st.session_state['t_chat_history']
   )
   response = completion['choices'][0]['message']['content']
 
@@ -121,16 +121,16 @@ st.write("#")
 
 
 def submit():
-    st.session_state.user_question = st.session_state.question_widget
-    st.session_state.question_widget = ''
+    st.session_state.t_user_question = st.session_state.t_question_widget
+    st.session_state.t_question_widget = ''
 
 user_question = st.text_input(label='Type here...', key='question_widget', on_change=submit)
 
 
 # Handle user input
-if len(st.session_state.user_question) > 0:
+if len(st.session_state.t_user_question) > 0:
     # Add the user's question to the chat history
-    add_to_chat_history('user', st.session_state.user_question)
+    add_to_chat_history('user', st.session_state.t_user_question)
 
     # TODO: Add code to handle the user's question and generate a response
 
@@ -144,7 +144,7 @@ if len(st.session_state.user_question) > 0:
     placeholder_chat_history.empty()
     with placeholder_chat_history.container():
       display_chat_history()
-    st.session_state.user_question = ''
+    st.session_state.t_user_question = ''
     
 
 
