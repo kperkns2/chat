@@ -124,7 +124,7 @@ def submit():
     st.session_state.t_user_question = st.session_state.t_question_widget
     st.session_state.t_question_widget = ''
 
-user_question = st.text_input(label='Type here...', key='question_widget', on_change=submit)
+user_question = st.text_input(label='Type here...', key='t_question_widget', on_change=submit)
 
 
 # Handle user input
