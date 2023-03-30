@@ -80,6 +80,8 @@ for index, row in st.session_state['assignment_df'].iterrows():
             answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}', label_visibility='hidden')
 
     with assignment_grid[index][1]:
+      for i in range(8):
+        st.write('')
       delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
 
 
