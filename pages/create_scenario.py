@@ -97,14 +97,15 @@ assignment_grid = make_grid(len(st.session_state['assignment_df']), 2)
 for index, row in st.session_state['assignment_df'].iterrows():
     # Create tabs for each row
     with assignment_grid[index][0]:
-        t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
+        t1, t2, t3, t4 = st.tabs(['Question', 'Hint', 'Answer'])
         with t1:
             question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}', label_visibility='hidden')        
         with t2:
             hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'hint_{index}', label_visibility='hidden')
         with t3:
             answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'answer_{index}', label_visibility='hidden')
-
+        with t4:
+            mls_input = st.text_area(f"MLS Description {index}", row['MLS Description'], key=f'mls_{index}', label_visibility='hidden')
     with assignment_grid[index][1]:
       for i in range(8):
         st.write('')
@@ -134,13 +135,15 @@ questions_grid = make_grid(len(filtered_scenarios_df), 2)
 for index, row in filtered_scenarios_df.iterrows():
     # Create tabs for each row
     with questions_grid[index][0]:
-        t1, t2, t3 = st.tabs(['Question', 'Hint', 'Answer'])
+        t1, t2, t3, t4 = st.tabs(['Question', 'Hint', 'Answer', 'MLS Description'])
         with t1:
             question_input = st.text_area(f"Question {index}", row['Question'], key=f'base_question_{index}', label_visibility='hidden')        
         with t2:
             hint_input = st.text_area(f"Hint {index}", row['Hint'], key=f'base_hint_{index}', label_visibility='hidden')
         with t3:
             answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'base_answer_{index}', label_visibility='hidden')
+        with t4:
+            mls_input = st.text_area(f"MLS Description {index}", row['MLS Description'], key=f'base_mls_{index}', label_visibility='hidden')
 
     with questions_grid[index][1]:
       for i in range(8):
