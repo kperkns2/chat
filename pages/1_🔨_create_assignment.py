@@ -61,7 +61,8 @@ def delete_callback(row_index):
     st.experimental_rerun()
 
 def add_to_assignment_callback(row_index):
-    row_data = st.session_state['assignments_df'].loc[row_index]
+    global filtered_assignments_df
+    row_data = filtered_assignments_df.loc[row_index]
     st.session_state['assignment_df'] = st.session_state['assignment_df'].append(row_data, ignore_index=True)
     st.write(f"Added row {row_index} to assignment")
 
