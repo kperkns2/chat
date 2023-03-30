@@ -133,6 +133,7 @@ else:
 
 filtered_assignments_df = filtered_assignments_df.query("Question != 'NA'")
 questions_grid = make_grid(len(filtered_assignments_df), 2)
+filtered_assignments_df = filtered_assignments_df.reset_index(drop=True)
 
 for index, row in filtered_assignments_df.iterrows():
     # Create tabs for each row
