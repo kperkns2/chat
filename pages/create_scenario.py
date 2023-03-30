@@ -1,11 +1,15 @@
 import streamlit as st
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",page_title="Create Scenario",page_icon="🔨")
+
+
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 from functools import partial
 from gspread_dataframe import set_with_dataframe
+
+
 
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
