@@ -41,7 +41,7 @@ if 't_assignment_df' not in st.session_state:
 
 bool_focus = 'TRUE'
 course = 'Science'
-first_message = "Send any message to get started"
+first_message = "Send any message to get started - the first message is ignored"
 str_prompt = """You are a helpful, socratic AI tutor. 
 Your goal is to help reinforce concepts that students have already learned. 
 You will be given a question, hint and answer. 
@@ -103,6 +103,9 @@ def generate_response():
 
   if len(system) > 2:
     system_message = [{"role": "system", "content": system}]
+
+  if st.session_state['t_chat_history'][0]['role'] == 'user':
+    st.session_state['t_chat_history'] = st.session_state['t_chat_history'][1:]
   
   openai.api_key = st.secrets['openai_api_key']
   completion = openai.ChatCompletion.create(
