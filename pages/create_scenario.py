@@ -110,11 +110,8 @@ for index, row in filtered_scenarios_df.iterrows():
             answer_input = st.text_area(f"Answer {index}", row['Answer'], key=f'base_answer_{index}', label_visibility='hidden')
 
     with questions_grid[index][1]:
-      st.write('')
-      st.write('')
-      st.write('')
-      st.write('')
-      st.write('')
+      for i in range(10):
+        st.write('')
       add_to_assignment_button = st.button("Add", on_click=partial(add_to_assignment_callback, index), key=f'add_{index}')
 
 
