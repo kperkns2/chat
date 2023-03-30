@@ -105,6 +105,7 @@ def generate_response():
     system_message = [{"role": "system", "content": system}]
 
   if st.session_state['t_chat_history'][0]['role'] == 'user':
+    st.write('Here')
     st.session_state['t_chat_history'] = st.session_state['t_chat_history'][1:]
   
   openai.api_key = st.secrets['openai_api_key']
