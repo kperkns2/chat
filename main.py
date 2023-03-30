@@ -164,7 +164,6 @@ def display_chat_history():
           st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><b>Tutor - </b>{message['content']}</div>", unsafe_allow_html=True)
 
 
-
 def show_example_questions(): 
   # Display the example questions
   # st.header('Or Pick an Example Question')
