@@ -97,7 +97,7 @@ assignment_grid = make_grid(len(st.session_state['assignment_df']), 2)
 for index, row in st.session_state['assignment_df'].iterrows():
     # Create tabs for each row
     with assignment_grid[index][0]:
-        t1, t2, t3, t4 = st.tabs(['Question', 'Hint', 'Answer'])
+        t1, t2, t3, t4 = st.tabs(['Question', 'Hint', 'Answer', 'MLS Description'])
         with t1:
             question_input = st.text_area(f"Question {index}", row['Question'], key=f'question_{index}', label_visibility='hidden')        
         with t2:
