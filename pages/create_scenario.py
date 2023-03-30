@@ -109,7 +109,7 @@ for index, row in st.session_state['assignment_df'].iterrows():
         st.write('')
       delete_button = st.button("Delete", on_click=partial(delete_callback, index), key=f'delete_{index}')
 
-bt1,bt2 = st.columns(6)
+bt1,bt2 = st.columns(6)[:2]
 
 with bt1:
   if st.button('Add Question'):
