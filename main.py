@@ -134,6 +134,7 @@ else:
   st.session_state['str_prompt'] = str_prompt
 
 def generate_response():
+  print('Generating Response')
   focus_statement = ""
   if bool_focus == 'TRUE':
     focus_statement = f" You must decline all requests form the user that are not related to the assigned topic. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists. The topic of conversation is {course}."
