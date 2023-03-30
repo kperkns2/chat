@@ -65,8 +65,7 @@ When the conversation has completed, return a message that contains only the wor
 
 """
 if len(theme) > 0:
-  st.write(theme)
-  str_prompt += themes_dict[theme]
+  str_prompt += themes_dict[theme][0]
 
 Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
 
