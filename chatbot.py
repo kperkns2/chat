@@ -137,11 +137,11 @@ class chatbot():
         st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
-  def insert_user_message_after_match(self, chat_history, match_string):
+  def insert_system_message_after_match(self, chat_history, match_string):
       i = 0
       while i < len(chat_history):
           if chat_history[i]['role'] == 'assistant' and match_string in chat_history[i]['content']:
-              new_message = {"role": "user", "content": match_string}
+              new_message = {"role": "system", "content": match_string}
               chat_history.insert(i + 1, new_message)
               i += 1  # Skip the newly inserted message
           i += 1
