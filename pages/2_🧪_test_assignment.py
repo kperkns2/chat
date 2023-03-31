@@ -30,7 +30,7 @@ def get_assignments_as_dataframe():
 def create_question_name_column(df_assignments):
     grouped = df_assignments.groupby('assignment_name')
     def generate_question_name(group):
-        group['question_name'] = group['assignment_name'] + '_Question' + (group.reset_index().index + 1).astype(str)
+        group['question_name'] = group['assignment_name'] + '-Question' + (group.reset_index().index + 1).astype(str)
         return group
     df_assignments = grouped.apply(generate_question_name)
     return df_assignments
@@ -63,11 +63,11 @@ After they guess you may give them the correct answer.
 Step 1
   - Briefly greet the student
   - Ask the student to pick a quiz
-  - When the student picks a quiz, store in your memory quiz_dataframe = assignment_dataframe[quiz = selected_quiz]
   - Wait for a response
 
 Step 2
-  - Say "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
+  - You do not create any questions. 
+  - Respond with "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
   - Wait for a response
 
 Step 3
