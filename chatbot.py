@@ -15,7 +15,7 @@ class chatbot():
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
-	self.prefix = prefix
+    self.prefix = prefix
 
 
     focus_statement = ""
