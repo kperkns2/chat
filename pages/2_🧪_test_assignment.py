@@ -40,8 +40,8 @@ df_assignments = get_assignments_as_dataframe()
 assignment_names = df_assignments['assignment_name'].unique().tolist()
 assignment_string = '\n\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
 df_assignments = create_question_name_column(df_assignments)
-assignment_name_to_count = str(df_assignments.groupby('assignment_name')['questions'].count())
-question_name_to_question = dict(df_assignments[['question_name','questions']].values)
+assignment_name_to_count = str(df_assignments.groupby('assignment_name')['question_text'].count())
+question_name_to_question = dict(df_assignments[['question_name','question_text']].values)
 
 import pandas as pd
 import gspread
@@ -67,7 +67,7 @@ Step 1
 
 Step 2
   - In df_assignments find the question named "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment
-  - Extract the question text from df_assignments by filtering and selecting the 'questions' column 
+  - Extract the question text from df_assignments by filtering on 'question_name' and selecting the 'question_text' column 
   - Ask the question to the user exactly as it appears in the DataFrame
   - Wait for a response
 
