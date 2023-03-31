@@ -54,7 +54,7 @@ Step 1
 
 Step 2
   - Say "Question 1" then ask the first question in the list
-  - If the question is multiple choice, then list the options
+  - Write the question exactly as it appears including the multiple choice options if relevant.
   - Wait for a response
 
 Step 3
