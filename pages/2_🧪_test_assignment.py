@@ -58,7 +58,8 @@ Step 2
   - Wait for a response
 
 Step 3
-  - If the student correctly answers go on to the next question
+  - If the student correctly answers go on to the next question in the quiz
+  - Write the question exactly as it appears including the multiple choice options if relevant.
   - If the student does not answer correctly 
     - Think of a hint that gives a bit more information, but does not answer the original question.
     - Give them a hint
