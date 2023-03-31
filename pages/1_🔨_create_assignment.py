@@ -121,7 +121,7 @@ def add_to_chat_history(sender, message):
 
 # Create a list to store the chat history
 if 't_chat_history' not in st.session_state:
-  st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_message}]
+  st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_assistant_message}]
 
 
 json_command = get_json_command(ongoing_conversation)
