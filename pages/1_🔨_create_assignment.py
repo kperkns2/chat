@@ -136,7 +136,7 @@ if json_command is not None:
     subject = json_command['subject']
     course = json_command['course']
     days_until_due = json_command['days_until_due']
-    save_assignment(questions, assignment_name, subject, course, days_until_due=None)
+    save_assignment(questions, assignment_name, subject, course, days_until_due)
     st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
