@@ -26,9 +26,22 @@ def get_assignments_as_dataframe():
     df = pd.DataFrame(records)
     return df
 
+
+def create_question_name_column(df_assignments):
+    grouped = df_assignments.groupby('assignment_name')
+    def generate_question_name(group):
+        group['question_name'] = group['assignment_name'] + '_Question' + (group.reset_index().index + 1).astype(str)
+        return group
+    df_assignments = grouped.apply(generate_question_name)
+    return df_assignments
+
+
 df_assignments = get_assignments_as_dataframe()
 assignment_names = df_assignments['assignment_name'].unique().tolist()
 assignment_string = '\n\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
+df_assignments = create_question_name_column(df_assignments)
+assignment_name_to_count = str(df_assignments.groupby('assignment_name')['questions'].count())
+question_name_to_question = dict(df_assignments[['question_name','questions']].values)
 
 import pandas as pd
 import gspread
@@ -54,8 +67,7 @@ Step 1
   - Wait for a response
 
 Step 2
-  - Say "Question 1" then ask the first question in quiz_dataframe
-  - Write the question exactly as it appears including the multiple choice options if relevant.
+  - Say "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
   - Wait for a response
 
 Step 3
@@ -69,10 +81,8 @@ Step 3
 
 Definition of hint - A small amount of information, but not enough to be considered a complete answer. 
 
-
-Here are all the assignments - assignment_dataframe: {df_assignments}
-
+The number of questions per assignment is given here {assignment_name_to_count}
 """
 
 
-chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_')
+chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)

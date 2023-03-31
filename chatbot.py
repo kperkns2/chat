@@ -10,19 +10,19 @@ import openai
 
 
 class chatbot():
-  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix=''):
+  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='', replace={}):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
     self.prefix = prefix
+    self.replace = replace
 
 
     focus_statement = ""
     if str(bool_focus).upper() == 'TRUE':
       focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
     self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
-
 
 
     if self.prefix + 'user_question' not in st.session_state:
@@ -151,4 +151,6 @@ class chatbot():
       messages= system_message + st.session_state[self.prefix + 'chat_history']
     )
     response = completion['choices'][0]['message']['content']
+    for k,v in self.replace.items():
+      response = response.replace(k,v)
     return response
