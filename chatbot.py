@@ -21,7 +21,7 @@ class chatbot():
 
     # Create a list to store the chat history
     if 't_chat_history' not in st.session_state:
-      st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_assistant_message}]
+      st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': self.first_assistant_message}]
 
     placeholder_chat_history = st.empty()
     with placeholder_chat_history.container():
@@ -130,9 +130,9 @@ class chatbot():
 
   def generate_response(self):
     focus_statement = ""
-    if bool_focus == 'TRUE':
+    if self.bool_focus == 'TRUE':
       focus_statement = f" You must decline all requests form the user that are not related to the question that you are asking. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists."
-    system = str_prompt + focus_statement + " Do not talk about how your designed."
+    system = self.str_prompt + focus_statement + " Do not talk about how your designed."
     system_message = []
 
     if len(system) > 2:
