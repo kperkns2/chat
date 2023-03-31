@@ -10,11 +10,12 @@ import openai
 
 
 class chatbot():
-  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt):
+  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix=''):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
+	self.prefix = prefix
 
 
     focus_statement = ""
@@ -24,12 +25,12 @@ class chatbot():
 
 
 
-    if 't_user_question' not in st.session_state:
+    if self.prefix + 'user_question' not in st.session_state:
       st.session_state.t_user_question = ''
 
     # Create a list to store the chat history
-    if 't_chat_history' not in st.session_state:
-      st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': self.first_assistant_message}]
+    if self.prefix + 'chat_history' not in st.session_state:
+      st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': self.first_assistant_message}]
 
     placeholder_chat_history = st.empty()
     with placeholder_chat_history.container():
@@ -44,7 +45,7 @@ class chatbot():
     def submit():
       st.session_state.t_user_question = st.session_state.t_question_widget
       st.session_state.t_question_widget = ''
-    user_question = st.text_input(label='Type here...', key='t_question_widget', on_change=submit)
+    user_question = st.text_input(label='Type here...', key=self.prefix + 'question_widget', on_change=submit)
 
     # Handle user input
     if len(st.session_state.t_user_question) > 0:
@@ -69,10 +70,10 @@ class chatbot():
     spreadsheet = self.spreadsheet
     worksheet = spreadsheet.worksheet('conversations')
     # Find the first empty column
-    if 't_col_num' not in st.session_state:
+    if self.prefix + 'col_num' not in st.session_state:
       st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
     # Write the chat history
-    for i,message in enumerate(st.session_state['t_chat_history']):
+    for i,message in enumerate(st.session_state[self.prefix + 'chat_history']):
         if message['role'] == 'user':
             worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
         else:
@@ -111,7 +112,7 @@ class chatbot():
   def display_chat_history(self):
     #post_conversation()
     st.header('High School Chatbot')
-    for message in st.session_state['t_chat_history']:
+    for message in st.session_state[self.prefix + 'chat_history']:
         if message['role'] == 'user':
             st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><b>Student - </b>{message['content']}</div>", unsafe_allow_html=True)
         else:
@@ -120,11 +121,11 @@ class chatbot():
 
   # Create a function to add messages to the chat history
   def add_to_chat_history(self, sender, message):
-      st.session_state['t_chat_history'].append({'role': sender, 'content': message})
+      st.session_state[self.prefix + 'chat_history'].append({'role': sender, 'content': message})
 
 
   def run_functions_if_any(self):
-    json_command = self.get_json_command(st.session_state['t_chat_history'])
+    json_command = self.get_json_command(st.session_state[self.prefix + 'chat_history'])
     if json_command is not None:
       if json_command['function'] == "save_assignment":
         questions = json_command['questions']
@@ -133,7 +134,7 @@ class chatbot():
         course = json_command['course']
         days_until_due = json_command['days_until_due']
         self.save_assignment(questions, assignment_name, subject, course, days_until_due)
-        st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
+        st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
   def generate_response(self):
@@ -141,13 +142,13 @@ class chatbot():
     if len(self.str_prompt) > 2:
       system_message = [{"role": "system", "content": self.str_prompt}]
 
-    if st.session_state['t_chat_history'][0]['role'] == 'user':
-      st.session_state['t_chat_history'] = st.session_state['t_chat_history'][1:]
+    if st.session_state[self.prefix + 'chat_history'][0]['role'] == 'user':
+      st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][1:]
     
     openai.api_key = st.secrets['openai_api_key']
     completion = openai.ChatCompletion.create(
       model="gpt-3.5-turbo", 
-      messages= system_message + st.session_state['t_chat_history']
+      messages= system_message + st.session_state[self.prefix + 'chat_history']
     )
     response = completion['choices'][0]['message']['content']
     return response

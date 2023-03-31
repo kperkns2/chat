@@ -72,4 +72,4 @@ Here are all the assignments {df_assignments}
 """
 
 
-chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt)
+chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_')
