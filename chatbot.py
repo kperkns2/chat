@@ -137,6 +137,17 @@ class chatbot():
         st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
+  def insert_user_message_after_match(chat_history, match_string):
+      i = 0
+      while i < len(chat_history):
+          if chat_history[i]['role'] == 'assistant' and match_string in chat_history[i]['content']:
+              new_message = {"role": "user", "content": match_string}
+              chat_history.insert(i + 1, new_message)
+              i += 1  # Skip the newly inserted message
+          i += 1
+
+      return chat_history
+
   def generate_response(self):
 
     if len(self.str_prompt) > 2:
@@ -147,8 +158,9 @@ class chatbot():
     chat_history = st.session_state[self.prefix + 'chat_history']
 
     # Use question names when passing to ChatGPT
-    #for name,question in self.replace.items():
-    #  chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
+    for name,question in self.replace.items():
+      chat_history = insert_user_message_after_match(chat_history, question)
+      chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
     completion = openai.ChatCompletion.create(

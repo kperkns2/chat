@@ -57,7 +57,7 @@ first_assistant_message = """Hi are you ready to talk about the assignment? To b
 
 """ + assignment_string
 
-str_prompt = f"""You are a chatbot that helps students by asking them a series of study questions, and you have a dialog. 
+str_prompt = f"""You are a chatbot that helps students with assignment questions that they already have through a conversation. 
 If they do not answer correctly, first give them a small hint. Do not answer right away.
 After they guess you may give them the correct answer.
 Step 1
@@ -66,9 +66,7 @@ Step 1
   - Wait for a response
 
 Step 2
-  - You do not create any questions. 
   - Write the string "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
-  - A python script will replace "ASSIGNMENT_NAME-Question1" with the actual question
   - Wait for a response
 
 Step 3
