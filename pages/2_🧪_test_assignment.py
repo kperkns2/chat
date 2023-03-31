@@ -66,7 +66,8 @@ Step 1
   - Wait for a response
 
 Step 2
-  - In the provided DataFrame find the question named "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment
+  - In df_assignments find the question named "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment
+  - Extract the question text from df_assignments by filtering and selecting the 'questions' column 
   - Ask the question to the user exactly as it appears in the DataFrame
   - Wait for a response
 
@@ -80,7 +81,7 @@ Step 3
 
 Definition of hint - A small amount of information, but not enough to be considered a complete answer. 
 
-Remember this DataFrame of questions exactly as it is {df_assignments}
+Store this dataframe in memory: df_assignments = {df_assignments}
 """
 
 
