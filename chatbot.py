@@ -152,5 +152,6 @@ class chatbot():
     )
     response = completion['choices'][0]['message']['content']
     for k,v in self.replace.items():
-      response = response.replace(k,v)
+      if k in response:
+        return v
     return response
