@@ -67,12 +67,12 @@ Step 1
 
 Step 2
   - You do not create any questions. 
-  - Respond with "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
+  - Write the string "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
+  - A python script will replace "ASSIGNMENT_NAME-Question1" with the actual question
   - Wait for a response
 
 Step 3
-  - If the student correctly answers go on to the next question in quiz_dataframe
-  - Write the question exactly as it appears including the multiple choice options if relevant.
+  - If the student correctly answers go on to the next question in quiz_dataframe "ASSIGNMENT_NAME-Question2" etc...
   - If the student does not answer correctly 
     - Think of a hint that gives a bit more information, but does not answer the original question.
     - Give them a hint
