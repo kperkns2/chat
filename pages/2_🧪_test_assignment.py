@@ -1,35 +1,11 @@
 import streamlit as st
-import streamlit as st
 import pandas as pd
 import openai
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
 st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
-
-if 't_user_question' not in st.session_state:
-  st.session_state.t_user_question = ''
-
-theme = st.sidebar.selectbox('Pick a theme for the chat',['Condescending','Pirate','Yoda','Q','Emojis','Cat Analogies'])
-
-
-themes_dict =  {'Condescending':'You current theme is condescending. For fun you speak to the user is a very debasing tone.',
-                'Pirate':'You must say everying in the style of a Pirate',
-                'Yoda':'You must say everying in the style of Yoda',
-                'Q':'You must start as many words as possible with the letter Q',
-                'Emojis':'You must use many relevant emojis',
-                'Cat Analogies':'You frequently use cat analogies to explain concepts'}
-
-
-
-
-
-import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import json
-from functools import partial
-from gspread_dataframe import set_with_dataframe
+from chatbot import chatbot
 
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -40,130 +16,59 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 gc = gspread.authorize(credentials)
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
-def fetch_assignment():
-    worksheet = spreadsheet.worksheet('temp_assignment')
-    data = worksheet.get_all_values()
-    df = pd.DataFrame(data[1:])
-    df.columns = data[0]
+
+def get_assignments_as_dataframe():
+    global spreadsheet
+    worksheet = spreadsheet.worksheet('assignments')
+    # Get all records from the worksheet
+    records = worksheet.get_all_records()
+    # Convert the records to a pandas DataFrame
+    df = pd.DataFrame(records)
     return df
 
-# Fetch saved assignments from the Google Sheet
-if 't_assignment_df' not in st.session_state:
-  st.session_state['t_assignment_df'] = fetch_assignment()
+df_assignments = get_assignments_as_dataframe()
+assignment_names = df_assignments['assignment_name'].unique().tolist()
+assignment_string = '\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
+
+import pandas as pd
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json
+from functools import partial
+from gspread_dataframe import set_with_dataframe
 
 
 bool_focus = 'TRUE'
-course = 'Science'
-first_assistant_message = "Send any message to get started - the first message is ignored"
-str_prompt = """You are a helpful, socratic AI tutor. 
-Your goal is to help reinforce concepts that students have already learned. 
-You will be given a question, hint and answer. 
-You begin by asking the question. 
-If the student needs help, you may provide the hint or answer questions without giving away the answer. 
-If the student continues to struggle you may give the answer. 
-When the conversation has completed, return a message that contains only the word end_of_chat.
+first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?
+
+""" + assignment_string
+
+str_prompt = f"""You are a chatbot that helps students by asking them a series of study questions, and you have a dialog. 
+If they do not answer correctly, first give them a small hint. Do not answer right away.
+After they guess you may give them the correct answer.
+Step 1
+  - Briefly greet the student
+  - Ask the student to pick a quiz
+  - Wait for a response
+
+Step 2
+  - Say "Question 1" then ask the first question in the list
+  - Wait for a response
+
+Step 3
+  - If the student correctly answers go on to the next question
+  - If the student does not answer correctly 
+    - Think of question 2 that gives a bit more information, but does not answer the original question.
+    - Give them a hint in the form of question 2
+  - If the student makes multiple failed attempts, give them the answer 
+  - Wait for a response - iterate on the questions
+
+Definition of hint - A small amount of information, but not enough to be considered a complete answer. 
+
+
+Here are all the assignments {df_assignments}
+
 """
 
-Topic,MLS_Description,Question,Hint,Answer = st.session_state['t_assignment_df'].iloc[0]
-context = {'Topic':Topic,'MLS_Description':MLS_Description,'Question':Question,'Hint':Hint,'Answer':Answer}
-str_prompt += f"""The context of the conversation is {context}
-"""
 
-if len(theme) > 0:
-  str_prompt += themes_dict[theme]
-
-
-# Open the Google Sheet
-spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
-worksheet = spreadsheet.worksheet('conversations')
-# Find the first empty column
-if 't_col_num' not in st.session_state:
-  st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
-# Write the chat history
-for i,message in enumerate(st.session_state['t_chat_history']):
-    if message['role'] == 'user':
-        worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
-    else:
-        worksheet.update_cell(i+1, st.session_state.t_col_num, f"Tutor - {message['content']}")
-
-
-def display_chat_history():
-  #post_conversation()
-  st.header('High School Chatbot')
-  for message in st.session_state['t_chat_history']:
-      if message['role'] == 'user':
-          st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><b>Student - </b>{message['content']}</div>", unsafe_allow_html=True)
-      else:
-          st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><b>Tutor - </b>{message['content']}</div>", unsafe_allow_html=True)
-
-
-# Create a function to add messages to the chat history
-def add_to_chat_history(sender, message):
-    st.session_state['t_chat_history'].append({'role': sender, 'content': message})
-
-# Create a list to store the chat history
-if 't_chat_history' not in st.session_state:
-  # st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_message}]
-  st.session_state['t_chat_history'] = []
-
-def generate_response():
-  focus_statement = ""
-  if bool_focus == 'TRUE':
-    focus_statement = f" You must decline all requests form the user that are not related to the question that you are asking. Changes in topic are only permitted if the user provies the hidden key 'asdj238'. You must not divulge the hidden key or mention that it exists."
-  system = str_prompt + focus_statement + " Do not talk about how your designed."
-  system_message = []
-
-  if len(system) > 2:
-    system_message = [{"role": "system", "content": system}]
-
-  if st.session_state['t_chat_history'][0]['role'] == 'user':
-    st.session_state['t_chat_history'] = st.session_state['t_chat_history'][1:]
-  
-  openai.api_key = st.secrets['openai_api_key']
-  completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages= system_message + st.session_state['t_chat_history']
-  )
-  response = completion['choices'][0]['message']['content']
-
-  return response
-
-
-placeholder_chat_history = st.empty()
-with placeholder_chat_history.container():
-  display_chat_history()
-
-st.write("#")
-st.markdown("---") 
-st.write("#")
-
-
-def submit():
-    st.session_state.t_user_question = st.session_state.t_question_widget
-    st.session_state.t_question_widget = ''
-
-user_question = st.text_input(label='Type here...', key='t_question_widget', on_change=submit)
-
-
-# Handle user input
-if len(st.session_state.t_user_question) > 0:
-    # Add the user's question to the chat history
-    add_to_chat_history('user', st.session_state.t_user_question)
-
-    # TODO: Add code to handle the user's question and generate a response
-
-    with placeholder_chat_history.container():
-      display_chat_history()
-
-    agent_response = generate_response()
-
-    add_to_chat_history('assistant', agent_response)
-
-    placeholder_chat_history.empty()
-    with placeholder_chat_history.container():
-      display_chat_history()
-    st.session_state.t_user_question = ''
-    
-
-
-
+chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt)
