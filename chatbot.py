@@ -147,7 +147,7 @@ class chatbot():
     chat_history = st.session_state[self.prefix + 'chat_history']
 
     # Use question names when passing to ChatGPT
-    for name,question in self.replace.items()
+    for name,question in self.replace.items():
       chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
