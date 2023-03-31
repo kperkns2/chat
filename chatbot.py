@@ -26,7 +26,7 @@ class chatbot():
 
 
     if self.prefix + 'user_question' not in st.session_state:
-      st.session_state.t_user_question = ''
+      st.session_state[self.prefix + 'user_question'] = ''
 
     # Create a list to store the chat history
     if self.prefix + 'chat_history' not in st.session_state:
@@ -43,14 +43,14 @@ class chatbot():
     self.run_functions_if_any()
 
     def submit():
-      st.session_state.t_user_question = st.session_state.t_question_widget
-      st.session_state.t_question_widget = ''
+      st.session_state[self.prefix + 'user_question'] = st.session_state[self.prefix + 'question_widget']
+      st.session_state[self.prefix + 'question_widget'] = ''
     user_question = st.text_input(label='Type here...', key=self.prefix + 'question_widget', on_change=submit)
 
     # Handle user input
-    if len(st.session_state.t_user_question) > 0:
+    if len(st.session_state[self.prefix + 'user_question']) > 0:
         # Add the user's question to the chat history
-        self.add_to_chat_history('user', st.session_state.t_user_question)
+        self.add_to_chat_history('user', st.session_state[self.prefix + 'user_question'])
 
         with placeholder_chat_history.container():
           self.display_chat_history()
@@ -61,7 +61,7 @@ class chatbot():
         placeholder_chat_history.empty()
         with placeholder_chat_history.container():
           self.display_chat_history()
-        st.session_state.t_user_question = ''
+        st.session_state[self.prefix + 'user_question'] = ''
 
 
 
@@ -71,13 +71,13 @@ class chatbot():
     worksheet = spreadsheet.worksheet('conversations')
     # Find the first empty column
     if self.prefix + 'col_num' not in st.session_state:
-      st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
+      st.session_state[self.prefix + 'col_num'] = len(worksheet.row_values(1)) + 1
     # Write the chat history
     for i,message in enumerate(st.session_state[self.prefix + 'chat_history']):
         if message['role'] == 'user':
-            worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
+            worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"Student - {message['content']}")
         else:
-            worksheet.update_cell(i+1, st.session_state.t_col_num, f"Tutor - {message['content']}")
+            worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"Tutor - {message['content']}")
 
 
   def get_json_command(self, ongoing_conversation):
