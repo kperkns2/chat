@@ -124,7 +124,7 @@ if 't_chat_history' not in st.session_state:
   st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_assistant_message}]
 
 
-json_command = get_json_command(ongoing_conversation)
+json_command = get_json_command(st.session_state['t_chat_history'])
 if json_command is not None:
   if json_command['function'] == "save_assignment":
     questions = json_command['questions']
