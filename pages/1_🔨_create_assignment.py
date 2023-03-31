@@ -64,5 +64,4 @@ spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 
 
-
 chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt)
