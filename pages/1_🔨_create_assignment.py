@@ -86,6 +86,11 @@ class chatbot():
     
     self.run_functions_if_any()
 
+    def submit():
+      st.session_state.t_user_question = st.session_state.t_question_widget
+      st.session_state.t_question_widget = ''
+    user_question = st.text_input(label='Type here...', key='t_question_widget', on_change=submit)
+    
     # Handle user input
     if len(st.session_state.t_user_question) > 0:
         # Add the user's question to the chat history
@@ -103,11 +108,9 @@ class chatbot():
         st.session_state.t_user_question = ''
 
 
-        def submit():
-            st.session_state.t_user_question = st.session_state.t_question_widget
-            st.session_state.t_question_widget = ''
 
-        user_question = st.text_input(label='Type here...', key='t_question_widget', on_change=submit)
+
+        
 
 
 
