@@ -159,7 +159,7 @@ class chatbot():
 
     # Use question names when passing to ChatGPT
     for name,question in self.replace.items():
-      chat_history = self.insert_user_message_after_match(chat_history, question)
+      chat_history = self.insert_system_message_after_match(chat_history, question)
       chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
