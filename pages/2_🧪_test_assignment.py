@@ -5,7 +5,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
 st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
-from chatbot import chatbot
+from chatbot import chatbot, chatbot_answer
 
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -89,4 +89,8 @@ Definition of hint - A small amount of information, but not enough to be conside
 """
 
 
-chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
+# chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
+
+str_prompt = "You give the user a list of options. They pick one. You repeat their choice exactly as it appears in the list. If they don't pick then politely encourage them to pick one"
+first_assistant_message = "Please select one of these ['0 Apple','1 Banana','2 Orange']"
+answer = chatbot_answer(bool_focus, first_assistant_message, str_prompt, prefix='ca_')

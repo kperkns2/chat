@@ -98,8 +98,8 @@ class chatbot():
       due_date = self.calculate_due_date(days_until_due)
 
       # Append each question to the Google Sheet
-      for question in questions:
-          row = [assignment_name, question, subject, course, due_date]
+      for question_text in questions:
+          row = [assignment_name, question_text, subject, course, due_date]
           worksheet.append_row(row)
 
   def calculate_due_date(self, days_until_due):
@@ -158,9 +158,9 @@ class chatbot():
     chat_history = st.session_state[self.prefix + 'chat_history']
 
     # Use question names when passing to ChatGPT
-    for name,question in self.replace.items():
-      chat_history = self.insert_system_message_after_match(chat_history, question)
-      chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
+    #for name,question in self.replace.items():
+    #  chat_history = self.insert_system_message_after_match(chat_history, question)
+    #  chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
     completion = openai.ChatCompletion.create(
@@ -168,7 +168,61 @@ class chatbot():
       messages= system_message + chat_history
     )
     response = completion['choices'][0]['message']['content']
-    for k,v in self.replace.items():
-      if k in response:
-        return v
+    #for k,v in self.replace.items():
+    #  if k in response:
+    #    return v
     return response
+
+
+class chatbot_answer(chatbot):
+  def __init__(self, bool_focus, first_assistant_message, str_prompt, prefix=''):
+    
+    self.bool_focus = bool_focus
+    self.first_assistant_message = first_assistant_message
+    self.str_prompt = str_prompt
+    self.prefix = prefix
+
+
+    focus_statement = ""
+    if str(bool_focus).upper() == 'TRUE':
+      focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
+    self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
+
+    if self.prefix + 'user_question' not in st.session_state:
+      st.session_state[self.prefix + 'user_question'] = ''
+
+    # Create a list to store the chat history
+    if self.prefix + 'chat_history' not in st.session_state:
+      st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': self.first_assistant_message}]
+
+    placeholder_chat_history = st.empty()
+    with placeholder_chat_history.container():
+      self.display_chat_history()
+
+    st.write("#")
+    st.markdown("---") 
+    st.write("#")
+    
+
+
+    def submit():
+      st.session_state[self.prefix + 'user_question'] = st.session_state[self.prefix + 'question_widget']
+      st.session_state[self.prefix + 'question_widget'] = ''
+    user_question = st.text_input(label='Type here...', key=self.prefix + 'question_widget', on_change=submit)
+
+    # Handle user input
+    if len(st.session_state[self.prefix + 'user_question']) > 0:
+        # Add the user's question to the chat history
+        self.add_to_chat_history('user', st.session_state[self.prefix + 'user_question'])
+
+        with placeholder_chat_history.container():
+          self.display_chat_history()
+
+        agent_response = self.generate_response()
+        self.add_to_chat_history('assistant', agent_response)
+
+        placeholder_chat_history.empty()
+        with placeholder_chat_history.container():
+          self.display_chat_history()
+        st.session_state[self.prefix + 'user_question'] = ''
+        return response
