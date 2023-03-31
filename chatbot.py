@@ -175,13 +175,16 @@ class chatbot():
 
 
 class chatbot_answer(chatbot):
-  def __init__(self, bool_focus, first_assistant_message, str_prompt, prefix=''):
+  def __init__(self, bool_focus, first_assistant_message, str_prompt, prefix='', answer_name):
     
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
     self.prefix = prefix
 
+
+    if answer_name in st.session_state:
+      return
 
     focus_statement = ""
     if str(bool_focus).upper() == 'TRUE':
@@ -225,4 +228,5 @@ class chatbot_answer(chatbot):
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
-        return agent_response
+        if '```' in agent_response:
+          st.session_state[answer_name] = agent_response.split('```')[1]
