@@ -8,6 +8,7 @@ import json
 from functools import partial
 from gspread_dataframe import set_with_dataframe
 import datetime
+import openai
 
 
 str_prompt = """You are a chatbot that will make it easy for Missouri educators to make quizzes for high school students. 
@@ -121,7 +122,7 @@ def add_to_chat_history(sender, message):
 
 if 't_user_question' not in st.session_state:
   st.session_state.t_user_question = ''
-  
+
 # Create a list to store the chat history
 if 't_chat_history' not in st.session_state:
   st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_assistant_message}]
