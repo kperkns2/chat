@@ -91,12 +91,12 @@ Definition of hint - A small amount of information, but not enough to be conside
 
 # 
 
-str_prompt = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside 3 backticks such as ```answer``` If they don't pick then politely encourage them to pick one"
-first_assistant_message = "Please select one of these ['0 Red Apple','1 Banana','2 Orange']"
+str_prompt_answer = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside 3 backticks such as ```answer``` If they don't pick then politely encourage them to pick one"
+first_assistant_message_answer = "Please select one of these ['0 Red Apple','1 Banana','2 Orange']"
 
 placeholder = st.empty()
 with placeholder.container():
-  chatbot_answer(bool_focus, first_assistant_message, str_prompt, answer_name='fruit', prefix='ca_')
+  chatbot_answer(bool_focus, first_assistant_message_answer, str_prompt_answer, answer_name='fruit', prefix='ca_')
 
 if 'fruit' in st.session_state:
   placeholder.empty()
