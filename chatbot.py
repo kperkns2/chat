@@ -225,4 +225,4 @@ class chatbot_answer(chatbot):
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
-        return response
+        return agent_response
