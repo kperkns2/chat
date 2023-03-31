@@ -28,7 +28,7 @@ def get_assignments_as_dataframe():
 
 df_assignments = get_assignments_as_dataframe()
 assignment_names = df_assignments['assignment_name'].unique().tolist()
-assignment_string = '\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
+assignment_string = '\n\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
 
 import pandas as pd
 import gspread
