@@ -51,7 +51,7 @@ from functools import partial
 from gspread_dataframe import set_with_dataframe
 
 
-bool_focus = 'TRUE'
+bool_focus = 'FALSE'
 first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?
 
 
