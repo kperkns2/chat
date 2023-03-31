@@ -59,8 +59,8 @@ Step 2
 Step 3
   - If the student correctly answers go on to the next question
   - If the student does not answer correctly 
-    - Think of question 2 that gives a bit more information, but does not answer the original question.
-    - Give them a hint in the form of question 2
+    - Think of a hint that gives a bit more information, but does not answer the original question.
+    - Give them a hint
   - If the student makes multiple failed attempts, give them the answer 
   - Wait for a response - iterate on the questions
 
