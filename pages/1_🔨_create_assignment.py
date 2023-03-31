@@ -126,14 +126,14 @@ if 't_chat_history' not in st.session_state:
 
 json_command = get_json_command(ongoing_conversation)
 if json_command is not None:
-  if json_command['function'] == "save_assignment"
-  questions = json_command['questions']
-  assignment_name = json_command['assignment_name']
-  subject = json_command['subject']
-  course = json_command['course']
-  days_until_due = json_command['days_until_due']
-  save_assignment(questions, assignment_name, subject, course, days_until_due=None)
-  st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
+  if json_command['function'] == "save_assignment":
+    questions = json_command['questions']
+    assignment_name = json_command['assignment_name']
+    subject = json_command['subject']
+    course = json_command['course']
+    days_until_due = json_command['days_until_due']
+    save_assignment(questions, assignment_name, subject, course, days_until_due=None)
+    st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
 
