@@ -1,6 +1,4 @@
 import streamlit as st
-st.set_page_config(layout="wide",page_title="Create assignment",page_icon="💬")
-
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
