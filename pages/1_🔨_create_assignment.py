@@ -119,6 +119,9 @@ def display_chat_history():
 def add_to_chat_history(sender, message):
     st.session_state['t_chat_history'].append({'role': sender, 'content': message})
 
+if 't_user_question' not in st.session_state:
+  st.session_state.t_user_question = ''
+  
 # Create a list to store the chat history
 if 't_chat_history' not in st.session_state:
   st.session_state['t_chat_history'] = [{'role': 'assistant', 'content': first_assistant_message}]
