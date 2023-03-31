@@ -175,7 +175,7 @@ class chatbot():
 
 
 class chatbot_answer(chatbot):
-  def __init__(self, bool_focus, first_assistant_message, str_prompt, prefix='', answer_name):
+  def __init__(self, bool_focus, first_assistant_message, str_prompt, answer_name, prefix='' ):
     
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
