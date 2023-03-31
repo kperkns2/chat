@@ -54,6 +54,7 @@ Step 1
 
 Step 2
   - Say "Question 1" then ask the first question in the list
+  - If the question is multiple choice, then list the options
   - Wait for a response
 
 Step 3
