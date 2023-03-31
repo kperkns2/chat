@@ -228,5 +228,5 @@ class chatbot_answer(chatbot):
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
-        if '```' in agent_response:
-          st.session_state[answer_name] = agent_response.split('```')[1]
+        if '`' in agent_response:
+          st.session_state[answer_name] = agent_response.split('`')[1]
