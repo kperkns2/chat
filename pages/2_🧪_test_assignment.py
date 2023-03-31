@@ -41,6 +41,7 @@ from gspread_dataframe import set_with_dataframe
 bool_focus = 'TRUE'
 first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?
 
+
 """ + assignment_string
 
 str_prompt = f"""You are a chatbot that helps students by asking them a series of study questions, and you have a dialog. 
