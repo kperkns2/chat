@@ -144,11 +144,16 @@ class chatbot():
 
     if st.session_state[self.prefix + 'chat_history'][0]['role'] == 'user':
       st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][1:]
-    
+    chat_history = st.session_state[self.prefix + 'chat_history']
+
+    # Use question names when passing to ChatGPT
+    for name,question in self.replace.items()
+      chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
+
     openai.api_key = st.secrets['openai_api_key']
     completion = openai.ChatCompletion.create(
       model="gpt-3.5-turbo", 
-      messages= system_message + st.session_state[self.prefix + 'chat_history']
+      messages= system_message + chat_history
     )
     response = completion['choices'][0]['message']['content']
     for k,v in self.replace.items():
