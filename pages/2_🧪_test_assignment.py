@@ -129,10 +129,6 @@ def generate_response():
   return response
 
 
-
-
-
-
 placeholder_chat_history = st.empty()
 with placeholder_chat_history.container():
   display_chat_history()
