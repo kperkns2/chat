@@ -30,7 +30,7 @@ def get_assignments_as_dataframe():
 def create_question_name_column(df_assignments):
     grouped = df_assignments.groupby('assignment_name')
     def generate_question_name(group):
-        group['question_name'] = group['assignment_name'] + '-Question' + (group.reset_index().index + 1).astype(str)
+        group['question_name'] = group['assignment_name'] + ' - Question ' + (group.reset_index().index + 1).astype(str)
         return group
     df_assignments = grouped.apply(generate_question_name)
     return df_assignments
@@ -67,7 +67,7 @@ Step 1
 
 Step 2
   - You do not create any questions. 
-  - Write the string "ASSIGNMENT_NAME-Question1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
+  - Write the string "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment exactly
   - A python script will replace "ASSIGNMENT_NAME-Question1" with the actual question
   - Wait for a response
 
