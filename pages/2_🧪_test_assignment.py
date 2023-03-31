@@ -54,7 +54,7 @@ if 't_assignment_df' not in st.session_state:
 
 bool_focus = 'TRUE'
 course = 'Science'
-first_message = "Send any message to get started - the first message is ignored"
+first_assistant_message = "Send any message to get started - the first message is ignored"
 str_prompt = """You are a helpful, socratic AI tutor. 
 Your goal is to help reinforce concepts that students have already learned. 
 You will be given a question, hint and answer. 
@@ -73,23 +73,18 @@ if len(theme) > 0:
   str_prompt += themes_dict[theme]
 
 
-
-
-
-
-def post_conversation():
-  # Open the Google Sheet
-  spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
-  worksheet = spreadsheet.worksheet('conversations')
-  # Find the first empty column
-  if 't_col_num' not in st.session_state:
-    st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
-  # Write the chat history
-  for i,message in enumerate(st.session_state['t_chat_history']):
-      if message['role'] == 'user':
-          worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
-      else:
-          worksheet.update_cell(i+1, st.session_state.t_col_num, f"Tutor - {message['content']}")
+# Open the Google Sheet
+spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
+worksheet = spreadsheet.worksheet('conversations')
+# Find the first empty column
+if 't_col_num' not in st.session_state:
+  st.session_state.t_col_num = len(worksheet.row_values(1)) + 1
+# Write the chat history
+for i,message in enumerate(st.session_state['t_chat_history']):
+    if message['role'] == 'user':
+        worksheet.update_cell(i+1, st.session_state.t_col_num, f"Student - {message['content']}")
+    else:
+        worksheet.update_cell(i+1, st.session_state.t_col_num, f"Tutor - {message['content']}")
 
 
 def display_chat_history():
