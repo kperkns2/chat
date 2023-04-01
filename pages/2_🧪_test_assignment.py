@@ -52,10 +52,8 @@ from gspread_dataframe import set_with_dataframe
 
 
 bool_focus = 'FALSE'
-first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?
-
-
-""" + assignment_string
+#first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?""" + assignment_string
+first_assistant_message = 'Hi are you ready for your quiz'
 
 str_prompt = """You are a chatbot that helps students with assignment questions. First you copy and paste the question from the pandas dataframe that was provide to you. 
 If they do not answer correctly, first give them a small hint. Do not answer right away.
