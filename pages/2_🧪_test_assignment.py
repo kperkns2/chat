@@ -57,12 +57,12 @@ first_assistant_message = """Hi are you ready to talk about the assignment? To b
 
 """ + assignment_string
 
-str_prompt = f"""You are a chatbot that helps students with assignment questions. First you copy and paste the question from the pandas dataframe that was provide to you. 
+str_prompt = """You are a chatbot that helps students with assignment questions. First you copy and paste the question from the pandas dataframe that was provide to you. 
 If they do not answer correctly, first give them a small hint. Do not answer right away.
 After they guess you may give them the correct answer.
 
 Step 0
-  - Store this dataframe in memory: df_assignments = {df_assignments}
+  - Store this dataframe in memory: df_assignments = {}
 
 Step 1
   - Briefly greet the student
@@ -99,5 +99,7 @@ with placeholder.container():
 
 if 'assignment_name' in st.session_state:
   placeholder.empty()
-  st.write(st.session_state['assignment_name'])
-#  chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
+  df_current_assignment = df_assignments[df_assignments['assignment_name'] == st.session_state['assignment_name']]
+  assignment_questions = df_current_assignment['question_text'].tolist()
+  str_prompt = str_prompt.format(assignment_questions)
+  chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
