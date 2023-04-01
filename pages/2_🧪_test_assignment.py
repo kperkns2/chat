@@ -55,36 +55,29 @@ bool_focus = 'FALSE'
 #first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?""" + assignment_string
 first_assistant_message = 'Hi are you ready for your quiz'
 
-str_prompt = """You are a chatbot that helps students with assignment questions. First you copy and paste the question from the pandas dataframe that was provide to you. 
+str_prompt = """You are a chatbot that helps students with assignment questions. You must write the questions one at a time to the student just as they are. 
 If they do not answer correctly, first give them a small hint. Do not answer right away.
 After they guess you may give them the correct answer.
 
-Step 0
-  - Store this dataframe in memory: df_assignments = {}
-
 Step 1
-  - Briefly greet the student
-  - Ask the student to pick a quiz
-  - Wait for a response
+  - Store this dataframe in memory: question_list = {}
+
 
 Step 2
-  - In df_assignments find the question named "ASSIGNMENT_NAME - Question 1" replacing ASSIGNMENT_NAME with the name of the assignment
-  - Extract the question text from df_assignments by filtering on 'question_name' and selecting the 'question_text' column 
-  - Ask the question to the user exactly as it appears in the DataFrame
+  - Ask the first question to the user exactly as it appears in the list
   - Wait for a response
 
 Step 3
-  - If the student correctly answers go on to the next question in quiz_dataframe "ASSIGNMENT_NAME - Question 2" etc...
+  - If the student correctly answers go on to the next question in list
   - If the student does not answer correctly 
     - Think of a hint that gives a bit more information, but does not answer the original question.
     - Give them a hint
   - If the student makes multiple failed attempts, give them the answer 
   - Wait for a response - iterate on the questions
 
-Definition of hint - A small amount of information, but not enough to be considered a complete answer. 
+Definition of hint - A small amount of information, but not enough to be considered a complete answer. """
 
 
-"""
 
 
 # 
