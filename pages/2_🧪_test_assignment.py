@@ -92,13 +92,12 @@ Definition of hint - A small amount of information, but not enough to be conside
 # 
 
 str_prompt_answer = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside backticks such as `answer` If they don't pick then politely encourage them to pick one"
-first_assistant_message_answer = "Please select one of these ['0 Red Apple','1 Banana','2 Orange']"
-
+first_assistant_message_answer = f"Please select one of these {assignment_names}"
 placeholder = st.empty()
 with placeholder.container():
-  chatbot_answer(bool_focus, first_assistant_message_answer, str_prompt_answer, answer_name='fruit', prefix='ca_')
+  chatbot_answer(bool_focus, first_assistant_message_answer, str_prompt_answer, answer_name='assignment_name', prefix='ca_')
 
-if 'fruit' in st.session_state:
+if 'assignment_name' in st.session_state:
   placeholder.empty()
-  st.write(st.session_state['fruit'])
-  chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
+  st.write(st.session_state['assignment_name'])
+#  chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='student_', replace=question_name_to_question)
