@@ -169,7 +169,10 @@ class chatbot():
         model="gpt-3.5-turbo", 
         messages = [{"role": "system", "content": new_system}])
       response = completion['choices'][0]['message']['content']
-      st.write(completion)
+      if 'TRUE' in str(response).upper():
+        return True
+      else:
+        return False
       
 
 
@@ -191,7 +194,11 @@ class chatbot():
 
     openai.api_key = st.secrets['openai_api_key']
 
-    self.hard_guardrail(system_message,chat_history )
+    continue = self.hard_guardrail(system_message,chat_history )
+
+    if not continue:
+      st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
+      return 'Hard Guardrail, sorry please stay on topic'
 
 
     completion = openai.ChatCompletion.create(
