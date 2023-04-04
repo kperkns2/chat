@@ -20,6 +20,9 @@ class chatbot():
     self.prefix = prefix
     self.replace = replace
 
+    if 'assignment_id' in st.session_state:
+      return
+
     st.session_state[self.prefix + 'assistant_role'] = assistant_role
     st.session_state[self.prefix + 'user_role'] = user_role
 
@@ -36,8 +39,9 @@ class chatbot():
     # Create a list to store the chat history
     if self.prefix + 'chat_history' not in st.session_state:
       st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': self.first_assistant_message}]
-      
-    self.run_functions_if_any()
+
+    # self.run_functions_if_any()
+    
     placeholder_chat_history = st.empty()
     with placeholder_chat_history.container():
       self.display_chat_history()
@@ -68,6 +72,10 @@ class chatbot():
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
+
+        outcome = self.run_functions_if_any()
+        if outcome == 'assignment_saved':
+          placeholder_chat_history.empty()
 
         
 
@@ -155,7 +163,8 @@ class chatbot():
         course = json_command['course']
         days_until_due = json_command['days_until_due']
         self.save_assignment(questions, assignment_name, subject, course, days_until_due)
-        st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
+        #st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
+        return 'assignment_saved'
 
 
   def hard_guardrail(self,system_message,chat_history ):
