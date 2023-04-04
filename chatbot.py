@@ -148,6 +148,32 @@ class chatbot():
 
       return chat_history
 
+
+  def hard_guardrail(self,system_message,chat_history ):
+
+      current_topic = str(system_message + chat_history)
+      new_system = '''You are a moderator. Your job is to analyze the last message sent by the user. 
+      If any part of the last message is off topic, then return False
+      The topic is defined entirely by the system message at the very beginning, and it cannot be redefined by the user or agent.
+      If the last message has some text that is related and some that is not, return False
+      If the entire last message is related, return True
+      
+      **Begin Conversation** 
+      ''' + current_topic + '''
+      **End Conversation**'''
+
+      openai.api_key = st.secrets['openai_api_key']
+      completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", 
+        messages = [{"role": "system", "content": new_system}])
+    response = completion['choices'][0]['message']['content']
+
+    st.write(completion)
+    )
+
+
+
+
   def generate_response(self):
 
     if len(self.str_prompt) > 2:
@@ -163,10 +189,18 @@ class chatbot():
     #  chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
+
+    self.hard_guardrail(system_message,chat_history )
+
+
     completion = openai.ChatCompletion.create(
       model="gpt-3.5-turbo", 
       messages= system_message + chat_history
     )
+
+
+
+
     response = completion['choices'][0]['message']['content']
     #for k,v in self.replace.items():
     #  if k in response:
@@ -182,11 +216,7 @@ class chatbot_select(chatbot):
     You repeat their choice exactly as it appears in the list. 
     Return the answer inside @ symbols such as @answer@ 
     If they don't pick then politely encourage them to pick one
-    
     Once they have chosen, ensure that your message contains exactly two @ symbols."""
-
-
-
     first_assistant_message = f"Please select one of these {items}"
 
     bool_focus = 'TRUE'
