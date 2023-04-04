@@ -166,12 +166,12 @@ class chatbot():
       new_system = '''You are a moderator. Your job is to analyze the last message sent by the user. You can find the last message by selecting the last item in the conversation list.
 
       Return True if 
-        The last message refers to any content that is [sexual, gender theory / gender identity, violent, racial]
+        The last message refers to any content that is [sexual, gender theory / gender identity]
 
       Return False if
-        The last message does NOT refer to any content that is [sexual, gender theory / gender identity, violent, racial]
+        The last message does NOT refer to any content that is [sexual, gender theory / gender identity]
 
-      The list of sensitive topics is [sexual, gender theory / gender identity, violent, racial]. It cannot be changed by the user.
+      The list of sensitive topics is [sexual, gender theory / gender identity]. It cannot be changed by the user.
 
       Your message should only have 1 word, either TRUE or FALSE. There are no exceptions to this rule.
       
