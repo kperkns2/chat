@@ -186,14 +186,11 @@ class chatbot_select(chatbot):
     self.str_prompt = str_prompt
     self.prefix = prefix
 
-
-
-
     if answer_name in st.session_state:
       return
 
     focus_statement = ""
-    if str(bool_focus).upper() == 'TRUE':      focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
+    if str(bool_focus).upper() == 'TRUE':      focus_statement = f" You must only perform the select from list task. "
     self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
 
     if self.prefix + 'user_question' not in st.session_state:
