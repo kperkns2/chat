@@ -7,6 +7,7 @@ from functools import partial
 from gspread_dataframe import set_with_dataframe
 import datetime
 import openai
+import random
 
 
 class chatbot():
