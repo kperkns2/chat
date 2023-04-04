@@ -194,9 +194,9 @@ class chatbot():
 
     openai.api_key = st.secrets['openai_api_key']
 
-    continue = self.hard_guardrail(system_message,chat_history )
+    bool_continue = self.hard_guardrail(system_message,chat_history )
 
-    if not continue:
+    if not bool_continue:
       st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
       return 'Hard Guardrail, sorry please stay on topic'
 
