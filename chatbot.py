@@ -180,6 +180,7 @@ class chatbot_select(chatbot):
     str_prompt = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside backticks such as `answer` If they don't pick then politely encourage them to pick one"
     first_assistant_message = f"Please select one of these {items}"
 
+    bool_focus = 'TRUE'
     self.bool_focus = 'TRUE'
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
