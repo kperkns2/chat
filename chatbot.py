@@ -28,6 +28,7 @@ class chatbot():
       focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
     self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
 
+    self.run_functions_if_any()
 
     if self.prefix + 'user_question' not in st.session_state:
       st.session_state[self.prefix + 'user_question'] = ''
