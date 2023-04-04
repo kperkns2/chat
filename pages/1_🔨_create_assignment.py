@@ -19,6 +19,8 @@ first_assistant_message = prompt_worksheet.cell(2, 2).value
 bool_focus = prompt_worksheet.cell(3, 2).value
 hard_focus = prompt_worksheet.cell(4, 2).value
 
+st.write(hard_focus)
+
 chatbot(spreadsheet, 
   bool_focus, 
   hard_focus,
