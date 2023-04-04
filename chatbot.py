@@ -44,7 +44,7 @@ class chatbot():
     st.markdown("---") 
     st.write("#")
     
-    self.run_functions_if_any()
+    
 
     def submit():
       st.session_state[self.prefix + 'user_question'] = st.session_state[self.prefix + 'question_widget']
@@ -66,6 +66,8 @@ class chatbot():
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
+
+        self.run_functions_if_any()
 
 
 
