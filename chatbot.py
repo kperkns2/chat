@@ -18,6 +18,8 @@ class chatbot():
     self.prefix = prefix
     self.replace = replace
 
+    st.session_state[self.prefix + 'assistant_role'] = assistant_role
+    st.session_state[self.prefix + 'user_role'] = user_role
 
     focus_statement = ""
     if str(bool_focus).upper() == 'TRUE':
@@ -67,8 +69,8 @@ class chatbot():
 
   def post_conversation(self):
 
-    assistant_role = st.session_state['assistant_role']
-    user_role = st.session_state['user_role']
+    assistant_role = st.session_state[self.prefix + 'assistant_role']
+    user_role = st.session_state[self.prefix + 'user_role']
 
     # Open the Google Sheet
     spreadsheet = self.spreadsheet
@@ -114,8 +116,8 @@ class chatbot():
       return due_date.strftime("%Y-%m-%d")
 
   def display_chat_history(self):
-    assistant_role = st.session_state['assistant_role']
-    user_role = st.session_state['user_role']
+    assistant_role = st.session_state[self.prefix + 'assistant_role']
+    user_role = st.session_state[self.prefix + 'user_role']
 
 
     #post_conversation()
@@ -225,7 +227,7 @@ class chatbot():
 
 
 class chatbot_select(chatbot):
-  def __init__(self, items, answer_name, prefix='' ):
+  def __init__(self, items, answer_name, prefix='', assistant_role='Tutor', user_role='Student'):
     
     str_prompt = """You give the user a list of options. 
     They pick one, although they don't have to type it exactly. 
@@ -240,6 +242,9 @@ class chatbot_select(chatbot):
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
     self.prefix = prefix
+
+    st.session_state[self.prefix + 'assistant_role'] = assistant_role
+    st.session_state[self.prefix + 'user_role'] = user_role
 
     if answer_name in st.session_state:
       return

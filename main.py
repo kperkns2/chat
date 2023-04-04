@@ -47,6 +47,10 @@ def post_conversation():
   spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
   worksheet = spreadsheet.worksheet('conversations')
 
+  assistant_role = st.session_state[self.prefix + 'assistant_role']
+  user_role = st.session_state[self.prefix + 'user_role']
+
+
   # Find the first empty column
   if 'col_num' not in st.session_state:
     st.session_state.col_num = len(worksheet.row_values(1)) + 1
@@ -60,7 +64,7 @@ def post_conversation():
                   "blue": 1.0
               }
           }
-          worksheet.update_cell(i+1, st.session_state.col_num, f"Student - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.col_num, f"{user_role} - {message['content']}")
       else:
           cell_format = {
               "backgroundColor": {
@@ -69,7 +73,7 @@ def post_conversation():
                   "blue": 0.97
               }
           }
-          worksheet.update_cell(i+1, st.session_state.col_num, f"Tutor - {message['content']}")
+          worksheet.update_cell(i+1, st.session_state.col_num, f"{assistant_role} - {message['content']}")
 
 
 
