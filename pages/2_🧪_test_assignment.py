@@ -35,7 +35,7 @@ assignment_names = df_assignments['assignment_name'].unique().tolist()
 
 placeholder = st.empty()
 with placeholder.container():
-  chatbot_select(items=df_assignments, answer_name='assignment_name', prefix='ca_')
+  chatbot_select(items=assignment_names, answer_name='assignment_name', prefix='ca_')
 
 if 'assignment_name' in st.session_state:
   placeholder.empty()
