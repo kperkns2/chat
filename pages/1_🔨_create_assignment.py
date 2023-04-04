@@ -14,9 +14,9 @@ spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 # Prompts are stored in Google Sheet
 prompt_worksheet = spreadsheet.worksheet('create_assignment_prompt')
-str_prompt = sheet.cell(1, 2).value
-first_assistant_message = sheet.cell(1, 3).value
-bool_focus = sheet.cell(1, 4).value
+str_prompt = prompt_worksheet.cell(1, 2).value
+first_assistant_message = prompt_worksheet.cell(1, 3).value
+bool_focus = prompt_worksheet.cell(1, 4).value
 
 
 chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='teacher_')
