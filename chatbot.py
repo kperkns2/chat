@@ -205,7 +205,7 @@ class chatbot():
 
     openai.api_key = st.secrets['openai_api_key']
 
-    if self.hard_focus:
+    if str(self.hard_focus).upper() == 'TRUE':
       bool_continue = self.hard_guardrail(system_message,chat_history )
       if not bool_continue:
         st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
