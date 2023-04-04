@@ -76,6 +76,7 @@ class chatbot():
         outcome = self.run_functions_if_any()
         if outcome == 'assignment_saved':
           placeholder_chat_history.empty()
+          st.experimental_rerun()
 
         
 
