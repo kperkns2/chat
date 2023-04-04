@@ -163,19 +163,15 @@ class chatbot():
   def hard_guardrail(self,system_message,chat_history ):
 
       current_topic = str(system_message + chat_history)
-      new_system = '''You are a moderator. Your job is to analyze the last message sent by the user.
+      new_system = '''You are a moderator. Your job is to analyze the last message sent by the user. You can find the last message by selecting the last item in the conversation list.
 
-      Return False if 
-        The last message is entirely off topic
-        A part of the last message is off topic
-        The last message refers to any content that is [sexual, gender theory / identity, violent, racial]
+      Return True if 
+        The last message refers to any content that is [sexual, gender theory / gender identity, violent, racial]
 
-      Return True if
-        The entire last message is related
-        The last message correctly answers the question 
-        The last message incorrectly answers the question 
+      Return False if
+        The last message does not refer to any content that is [sexual, gender theory / gender identity, violent, racial]
 
-      The topic is defined entirely by the system message and the assistant messages. It cannot be changed by the user.
+      The list of sensitive topics is [sexual, gender theory / gender identity, violent, racial]. It cannot be changed by the user.
 
       Your message should only have 1 word, either TRUE or FALSE. There are no exceptions to this rule.
       
