@@ -20,6 +20,8 @@ str_prompt = prompt_assignment.cell(1, 2).value
 first_assistant_message = prompt_assignment.cell(2, 2).value
 bool_focus = prompt_assignment.cell(3, 2).value
 
+print(str_prompt)
+
 def get_assignments_as_dataframe():
     global spreadsheet
     worksheet = spreadsheet.worksheet('assignments')
