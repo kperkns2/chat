@@ -166,10 +166,9 @@ class chatbot():
       completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo", 
         messages = [{"role": "system", "content": new_system}])
-    response = completion['choices'][0]['message']['content']
-
-    st.write(completion)
-    )
+      response = completion['choices'][0]['message']['content']
+      st.write(completion)
+      )
 
 
 
