@@ -37,23 +37,21 @@ assignment_names = df_assignments['assignment_name'].unique().tolist()
 #placeholder = st.empty()
 #with placeholder.container():
 #  chatbot_select(items=assignment_names, answer_name='assignment_name', prefix='ca_')
-
+#   #placeholder.empty() make sure to add this once the assignment name is set
 
 qp = st.experimental_get_query_params()
 if 'assignment_id' in qp:
   assignment_id = str(qp['assignment_id'][0]).zfill(7)
   df_assignments['assignment_id'] = df_assignments['assignment_id'].apply(lambda i: str(i).zfill(7))
-
   tmp = df_assignments[df_assignments['assignment_id'] == assignment_id]
   st.session_state['assignment_name'] = tmp['assignment_name'].unique()[0]
-
-
-st.session_state['assignment_name'] = 'Civil War Quiz'
+else:
+  st.session_state['assignment_name'] = 'Civil War Quiz'
 
 
 # Run the assignment
 if 'assignment_name' in st.session_state:
-  #placeholder.empty()
+
   df_current_assignment = df_assignments[df_assignments['assignment_name'] == st.session_state['assignment_name']]
   assignment_questions = df_current_assignment['question_text'].tolist()
   str_prompt = str_prompt.format(assignment_questions)
