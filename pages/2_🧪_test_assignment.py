@@ -41,10 +41,10 @@ assignment_names = df_assignments['assignment_name'].unique().tolist()
 
 qp = st.experimental_get_query_params()
 if 'assignment_id' in qp:
-  assignment_id = qp['assignment_id']
-  st.write('assignment_id: ' + str(assignment_id))
+  assignment_id = str(qp['assignment_id'][0]).zfill(7)
+  df_assignments['assignment_id'] = df_assignments['assignment_id'].apply(lambda i: str(i).zfill(7))
 
-  tmp = df_assignments[df_assignments['assignment_id'].apply(lambda i: str(i).zfill(7)) == str(assignment_id).zfill(7)]
+  tmp = df_assignments[df_assignments['assignment_id'] == assignment_id]
   st.session_state['assignment_name'] = tmp['assignment_name'].unique()[0]
 
 
