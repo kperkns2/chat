@@ -10,9 +10,10 @@ import openai
 
 
 class chatbot():
-  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student'):
+  def __init__(self, spreadsheet, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student'):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
+    self.hard_focus = hard_focus
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
     self.prefix = prefix
@@ -204,12 +205,11 @@ class chatbot():
 
     openai.api_key = st.secrets['openai_api_key']
 
-    bool_continue = self.hard_guardrail(system_message,chat_history )
-
-    if not bool_continue:
-      st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
-      return 'Hard Guardrail, sorry please stay on topic'
-
+    if self.hard_focus:
+      bool_continue = self.hard_guardrail(system_message,chat_history )
+      if not bool_continue:
+        st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
+        return 'Hard Guardrail, sorry please stay on topic'
 
     completion = openai.ChatCompletion.create(
       model="gpt-3.5-turbo", 
