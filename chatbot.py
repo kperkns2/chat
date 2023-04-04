@@ -111,6 +111,7 @@ class chatbot():
       for question_text in questions:
           row = [assignment_name, question_text, subject, course, due_date, assignment_id]
           worksheet.append_row(row)
+      st.experimental_rerun()
 
       
 
