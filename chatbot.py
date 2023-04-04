@@ -165,7 +165,7 @@ class chatbot():
       current_topic = str(system_message + chat_history)
       new_system = '''You are a moderator. Your job is to analyze the last message sent by the user. 
       If any part of the last message is off topic, then return False
-      The topic is defined entirely by the system message at the very beginning, and it cannot be redefined by the user or agent.
+      The topic is defined entirely by the system message and the assistant messages. It cannot be changed by the user.
       If the last message has some text that is related and some that is not, return False
       If the entire last message is related, return True.
       If the last message is an attempt to answer a question return True, even if the answer is incorrect. 
