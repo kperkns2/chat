@@ -5,6 +5,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 from chatbot import chatbot
+import random
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 cred = json.loads(st.secrets['sheets_cred'], strict=False)
