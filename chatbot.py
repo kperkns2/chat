@@ -100,14 +100,18 @@ class chatbot():
   def save_assignment(self, questions, assignment_name, subject, course, days_until_due=None):
       spreadsheet = self.spreadsheet
       worksheet = spreadsheet.worksheet('assignments')
-
+      
       # Calculate the due date
       due_date = self.calculate_due_date(days_until_due)
 
+      assignment_id = str(random.randint(0,9999999)).zfill(7)
+      st.session_state['assignment_id'] = assignment_id
       # Append each question to the Google Sheet
       for question_text in questions:
-          row = [assignment_name, question_text, subject, course, due_date]
+          row = [assignment_name, question_text, subject, course, due_date, assignment_id]
           worksheet.append_row(row)
+
+      
 
   def calculate_due_date(self, days_until_due):
       if days_until_due is None:
@@ -148,18 +152,6 @@ class chatbot():
         st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
 
 
-  def insert_system_message_after_match(self, chat_history, match_string):
-      i = 0
-      while i < len(chat_history):
-          if chat_history[i]['role'] == 'assistant' and match_string in chat_history[i]['content']:
-              new_message = {"role": "system", "content": match_string}
-              chat_history.insert(i + 1, new_message)
-              i += 1  # Skip the newly inserted message
-          i += 1
-
-      return chat_history
-
-
   def hard_guardrail(self,system_message,chat_history ):
 
       current_topic = str(system_message + chat_history)
@@ -191,8 +183,6 @@ class chatbot():
       
 
 
-
-
   def generate_response(self):
 
     if len(self.str_prompt) > 2:
@@ -202,10 +192,6 @@ class chatbot():
       st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][1:]
     chat_history = st.session_state[self.prefix + 'chat_history']
 
-    # Use question names when passing to ChatGPT
-    #for name,question in self.replace.items():
-    #  chat_history = self.insert_system_message_after_match(chat_history, question)
-    #  chat_history = [{k:v.replace(question,name) for k, v in chat.items()} for chat in chat_history]
 
     openai.api_key = st.secrets['openai_api_key']
 
@@ -236,9 +222,9 @@ class chatbot_select(chatbot):
     str_prompt = """You give the user a list of options. 
     They pick one, although they don't have to type it exactly. 
     You repeat their choice exactly as it appears in the list. 
-    Return the answer inside @ symbols such as @answer@ 
+    Return the answer inside single quotes such as 'answer' 
     If they don't pick then politely encourage them to pick one
-    Once they have chosen, ensure that your message contains exactly two @ symbols."""
+    Once they have chosen, ensure that your message contains exactly two ' symbols."""
     first_assistant_message = f"Please select one of these {items}"
 
     bool_focus = 'TRUE'
@@ -294,5 +280,5 @@ class chatbot_select(chatbot):
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
-        if '@' in agent_response:
-          st.session_state[answer_name] = agent_response.split('@')[1]
+        if "'" in agent_response:
+          st.session_state[answer_name] = agent_response.split("'")[1]
