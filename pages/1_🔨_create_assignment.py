@@ -18,4 +18,10 @@ str_prompt = prompt_worksheet.cell(1, 2).value
 first_assistant_message = prompt_worksheet.cell(2, 2).value
 bool_focus = prompt_worksheet.cell(3, 2).value
 
-chatbot(spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='teacher_')
+chatbot(spreadsheet, 
+  bool_focus, 
+  first_assistant_message, 
+  str_prompt, 
+  prefix='teacher_', 
+  assistant_role='AI', 
+  user_role='Teacher')

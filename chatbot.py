@@ -10,7 +10,7 @@ import openai
 
 
 class chatbot():
-  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='', replace={}):
+  def __init__(self, spreadsheet, bool_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student'):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.first_assistant_message = first_assistant_message
@@ -67,7 +67,7 @@ class chatbot():
 
   def post_conversation(self):
 
-    assistent_role = st.session_state['assistent_role']
+    assistant_role = st.session_state['assistant_role']
     user_role = st.session_state['user_role']
 
     # Open the Google Sheet
@@ -81,7 +81,7 @@ class chatbot():
         if message['role'] == 'user':
             worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"{user_role} - {message['content']}")
         else:
-            worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"{assistent_role} - {message['content']}")
+            worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"{assistant_role} - {message['content']}")
 
 
   def get_json_command(self, ongoing_conversation):
@@ -114,7 +114,7 @@ class chatbot():
       return due_date.strftime("%Y-%m-%d")
 
   def display_chat_history(self):
-    assistent_role = st.session_state['assistent_role']
+    assistant_role = st.session_state['assistant_role']
     user_role = st.session_state['user_role']
 
 
@@ -124,7 +124,7 @@ class chatbot():
         if message['role'] == 'user':
             st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><font color='black'><b>{user_role} - </b></font>{message['content']}</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><font color='black'><b>{assistent_role} - </b></font>{message['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><font color='black'><b>{assistant_role} - </b></font>{message['content']}</div>", unsafe_allow_html=True)
 
 
   # Create a function to add messages to the chat history
