@@ -168,7 +168,7 @@ class chatbot():
         messages = [{"role": "system", "content": new_system}])
       response = completion['choices'][0]['message']['content']
       st.write(completion)
-      )
+      
 
 
 
