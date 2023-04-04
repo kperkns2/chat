@@ -43,7 +43,7 @@ st.session_state['assignment_name'] = 'Civil War Quiz'
 
 # Run the assignment
 if 'assignment_name' in st.session_state:
-  placeholder.empty()
+  #placeholder.empty()
   df_current_assignment = df_assignments[df_assignments['assignment_name'] == st.session_state['assignment_name']]
   assignment_questions = df_current_assignment['question_text'].tolist()
   str_prompt = str_prompt.format(assignment_questions)
