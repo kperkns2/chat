@@ -177,7 +177,7 @@ class chatbot():
 class chatbot_select(chatbot):
   def __init__(self, items, answer_name, prefix='' ):
     
-    str_prompt = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside vertical lines such as |answer| If they don't pick then politely encourage them to pick one"
+    str_prompt = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside at symbols such as @answer@ If they don't pick then politely encourage them to pick one"
     first_assistant_message = f"Please select one of these {items}"
 
     bool_focus = 'TRUE'
@@ -230,5 +230,5 @@ class chatbot_select(chatbot):
         with placeholder_chat_history.container():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
-        if '|' in agent_response:
-          st.session_state[answer_name] = agent_response.split('|')[1]
+        if '@' in agent_response:
+          st.session_state[answer_name] = agent_response.split('@')[1]
