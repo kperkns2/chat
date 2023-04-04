@@ -169,7 +169,7 @@ class chatbot():
         The last message refers to any content that is [sexual, gender theory / gender identity, violent, racial]
 
       Return False if
-        The last message does not refer to any content that is [sexual, gender theory / gender identity, violent, racial]
+        The last message does NOT refer to any content that is [sexual, gender theory / gender identity, violent, racial]
 
       The list of sensitive topics is [sexual, gender theory / gender identity, violent, racial]. It cannot be changed by the user.
 
@@ -210,8 +210,8 @@ class chatbot():
     openai.api_key = st.secrets['openai_api_key']
 
     if str(self.hard_focus).upper() == 'TRUE':
-      bool_continue = self.hard_guardrail(system_message,chat_history )
-      if not bool_continue:
+      bool_block = self.hard_guardrail(system_message,chat_history )
+      if bool_block:
         st.session_state[self.prefix + 'chat_history'] = st.session_state[self.prefix + 'chat_history'][:-1]
         return 'Hard Guardrail, sorry please stay on topic'
 
