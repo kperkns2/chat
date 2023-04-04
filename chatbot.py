@@ -67,7 +67,6 @@ class chatbot():
           self.display_chat_history()
         st.session_state[self.prefix + 'user_question'] = ''
 
-        self.run_functions_if_any()
         
 
 
