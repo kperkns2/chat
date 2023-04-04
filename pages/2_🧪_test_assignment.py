@@ -1,21 +1,24 @@
 import streamlit as st
 import pandas as pd
-import openai
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
-st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
 from chatbot import chatbot, chatbot_answer
+
+st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
+
 
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 cred = json.loads(st.secrets['sheets_cred'], strict=False)
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
-
-# Authorize and open the Google Sheet
 gc = gspread.authorize(credentials)
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
+prompt_assignment = spreadsheet.worksheet('take_assignment_prompt')
+str_prompt = prompt_assignment.cell(1, 2).value
+first_assistant_message = prompt_assignment.cell(2, 2).value
+bool_focus = prompt_assignment.cell(3, 2).value
 
 def get_assignments_as_dataframe():
     global spreadsheet
@@ -25,68 +28,14 @@ def get_assignments_as_dataframe():
     # Convert the records to a pandas DataFrame
     df = pd.DataFrame(records)
     return df
-
-
-def create_question_name_column(df_assignments):
-    grouped = df_assignments.groupby('assignment_name')
-    def generate_question_name(group):
-        group['question_name'] = group['assignment_name'] + ' - Question ' + (group.reset_index().index + 1).astype(str)
-        return group
-    df_assignments = grouped.apply(generate_question_name)
-    return df_assignments
-
-
+    
 df_assignments = get_assignments_as_dataframe()
 assignment_names = df_assignments['assignment_name'].unique().tolist()
-assignment_string = '\n\n'.join([(f"{i} {n}") for i,n in enumerate(df_assignments['assignment_name'].unique().tolist())])
-df_assignments = create_question_name_column(df_assignments)
-assignment_name_to_count = str(df_assignments.groupby('assignment_name')['question_text'].count())
 question_name_to_question = dict(df_assignments[['question_name','question_text']].values)
 
-import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import json
-from functools import partial
-from gspread_dataframe import set_with_dataframe
-
-
-bool_focus = 'FALSE'
-#first_assistant_message = """Hi are you ready to talk about the assignment? To begin, can you please pick one from the list?""" + assignment_string
-first_assistant_message = 'Hi are you ready for your quiz'
-
-str_prompt = """You are a chatbot that helps students with assignment questions. You must write the questions one at a time to the student just as they are. 
-If they do not answer correctly, first give them a small hint. Do not answer right away.
-After they guess you may give them the correct answer.
-
-Step 1
-  - Store this dataframe in memory: question_list = {}
-
-
-Step 2
-  - Ask the first question to the user exactly as it appears in the list
-  - Wait for a response
-
-Step 3
-  - If the student correctly answers go on to the next question in list
-  - If the student does not answer correctly 
-    - Think of a hint that gives a bit more information, but does not answer the original question.
-    - Give them a hint
-  - If the student makes multiple failed attempts, give them the answer 
-  - Wait for a response - iterate on the questions
-
-Definition of hint - A small amount of information, but not enough to be considered a complete answer. """
-
-
-
-
-# 
-
-str_prompt_answer = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside backticks such as `answer` If they don't pick then politely encourage them to pick one"
-first_assistant_message_answer = f"Please select one of these {assignment_names}"
 placeholder = st.empty()
 with placeholder.container():
-  chatbot_answer(bool_focus, first_assistant_message_answer, str_prompt_answer, answer_name='assignment_name', prefix='ca_')
+  chatbot_select(items=df_assignments, answer_name='assignment_name', prefix='ca_')
 
 if 'assignment_name' in st.session_state:
   placeholder.empty()

@@ -174,21 +174,25 @@ class chatbot():
     return response
 
 
-class chatbot_answer(chatbot):
-  def __init__(self, bool_focus, first_assistant_message, str_prompt, answer_name, prefix='' ):
+class chatbot_select(chatbot):
+  def __init__(self, items, answer_name, prefix='' ):
     
-    self.bool_focus = bool_focus
+    str_prompt = "You give the user a list of options. They pick one, although they don't have to type it exactly. You repeat their choice exactly as it appears in the list. Return the answer inside backticks such as `answer` If they don't pick then politely encourage them to pick one"
+    first_assistant_message = f"Please select one of these {items}"
+
+    self.bool_focus = 'TRUE'
     self.first_assistant_message = first_assistant_message
     self.str_prompt = str_prompt
     self.prefix = prefix
+
+
 
 
     if answer_name in st.session_state:
       return
 
     focus_statement = ""
-    if str(bool_focus).upper() == 'TRUE':
-      focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
+    if str(bool_focus).upper() == 'TRUE':      focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
     self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
 
     if self.prefix + 'user_question' not in st.session_state:
