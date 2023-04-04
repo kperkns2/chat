@@ -3,7 +3,7 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
-from chatbot import chatbot, chatbot_answer
+from chatbot import chatbot, chatbot_select
 
 st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
 
@@ -28,7 +28,7 @@ def get_assignments_as_dataframe():
     # Convert the records to a pandas DataFrame
     df = pd.DataFrame(records)
     return df
-    
+
 df_assignments = get_assignments_as_dataframe()
 assignment_names = df_assignments['assignment_name'].unique().tolist()
 question_name_to_question = dict(df_assignments[['question_name','question_text']].values)
