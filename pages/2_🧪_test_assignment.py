@@ -27,6 +27,7 @@ def get_assignments_as_dataframe(key='assignments'):
 
 
 def main():
+  st.header('Education AI')
 
   ### Check if the assignment is one of the preset activities
   qp = st.experimental_get_query_params()
@@ -39,9 +40,6 @@ def main():
       course,topic,subtopic,focus,hard_guardrail,prompt,first_message,assignment_id = df_activities
       chatbot(focus, hard_guardrail, first_message, prompt, prefix='activity_' )
       return 
-
-
-
 
 
   # Load the prompts

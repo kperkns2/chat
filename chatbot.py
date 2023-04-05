@@ -141,7 +141,7 @@ class chatbot():
 
 
     #post_conversation()
-    st.header('High School Chatbot')
+    
     for message in st.session_state[self.prefix + 'chat_history']:
         if message['role'] == 'user':
             st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><font color='black'><b>{user_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
