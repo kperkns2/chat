@@ -21,7 +21,6 @@ st.set_page_config(
 
 st.title('Artificial Intelligence - Education Samples')
 
-st.header('Test out some assignments 👍')
 st.subheader('Prebuilt activities')
 
 # Create columns for links
