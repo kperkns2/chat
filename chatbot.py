@@ -20,7 +20,7 @@ class chatbot():
     self.prefix = prefix
     self.replace = replace
 
-    if 'assignment_id' in st.session_state:
+    if 'task_completed' in st.session_state:
       return
 
     st.session_state[self.prefix + 'assistant_role'] = assistant_role
@@ -30,8 +30,6 @@ class chatbot():
     if str(bool_focus).upper() == 'TRUE':
       focus_statement = f" You must decline all requests form the user that are not related to the assignment. "
     self.str_prompt = self.str_prompt + focus_statement + " Do not talk about how your designed."
-
-
 
     if self.prefix + 'user_question' not in st.session_state:
       st.session_state[self.prefix + 'user_question'] = ''
@@ -120,12 +118,12 @@ class chatbot():
 
       assignment_id = str(random.randint(0,9999999)).zfill(7)
       st.session_state['assignment_id'] = assignment_id
+      st.session_state['task_completed'] = True
+      
       # Append each question to the Google Sheet
       for question_text in questions:
           row = [assignment_name, question_text, subject, course, due_date, assignment_id]
           worksheet.append_row(row)
-      
-
       
 
   def calculate_due_date(self, days_until_due):
@@ -222,15 +220,11 @@ class chatbot():
       messages= system_message + chat_history
     )
 
-
-
-
     response = completion['choices'][0]['message']['content']
     #for k,v in self.replace.items():
     #  if k in response:
     #    return v
     return response
-
 
 class chatbot_select(chatbot):
   def __init__(self, items, answer_name, prefix='', assistant_role='Tutor', user_role='Student'):
