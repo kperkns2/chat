@@ -38,6 +38,7 @@ if 'assignment_id' in qp:
     df_activities = df_activities[df_activities['assignment_id'] == assignment_id].iloc[0]
     course,topic,subtopic,focus,hard_guardrail,prompt,first_message,assignment_id = df_activities
     chatbot(focus, hard_guardrail, first_message, prompt, prefix='activity_' )
+    return 
 
 
 
