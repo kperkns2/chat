@@ -65,8 +65,10 @@ def main():
     df_assignments['assignment_id'] = df_assignments['assignment_id'].apply(lambda i: str(i).zfill(7))
     tmp = df_assignments[df_assignments['assignment_id'] == assignment_id]
     st.session_state['assignment_name'] = tmp['assignment_name'].unique()[0]
+    st.session_state['assignment_id'] = assignment_id
   else:
     st.session_state['assignment_name'] = 'Civil War Quiz'
+    st.session_state['assignment_id'] = '-1'
 
 
   # Run the assignment
@@ -75,6 +77,6 @@ def main():
     df_current_assignment = df_assignments[df_assignments['assignment_name'] == st.session_state['assignment_name']]
     assignment_questions = df_current_assignment['question_text'].tolist()
     str_prompt = str_prompt.format(assignment_questions)
-    chatbot(bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='student_', spreadsheet=spreadsheet)
+    chatbot(bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='student_', spreadsheet=spreadsheet, assignment_id=assignment_id)
 
 main()
