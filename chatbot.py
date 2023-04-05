@@ -11,7 +11,7 @@ import random
 
 
 class chatbot():
-  def __init__(self, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student', spreadsheet=None):
+  def __init__(self, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student', spreadsheet=None, assignment_id=None):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.hard_focus = hard_focus
@@ -19,6 +19,9 @@ class chatbot():
     self.str_prompt = str_prompt
     self.prefix = prefix
     self.replace = replace
+    if assignment_id is not None:
+      self.assignment_id = assignment_id
+    self.student_id = 5
 
     if 'task_completed' in st.session_state:
       return
@@ -117,13 +120,23 @@ class chatbot():
       due_date = self.calculate_due_date(days_until_due)
 
       assignment_id = str(random.randint(0,9999999)).zfill(7)
-      st.session_state['assignment_id'] = assignment_id
-      st.session_state['task_completed'] = True
-      
+
       # Append each question to the Google Sheet
       for question_text in questions:
           row = [assignment_name, question_text, subject, course, due_date, assignment_id]
           worksheet.append_row(row)
+
+      st.session_state['assignment_id'] = assignment_id
+      st.session_state['task_completed'] = True
+
+  def save_responses(self, questions, answers, bool_unassisted, assignment_id, student_id):
+      spreadsheet = self.spreadsheet
+      worksheet = spreadsheet.worksheet('responses')
+      
+      # Append each question to the Google Sheet
+      row = [questions, answers, bool_unassisted, assignment_id, student_id]
+      worksheet.append_row(row)
+      st.session_state['task_completed'] = True
       
 
   def calculate_due_date(self, days_until_due):
@@ -164,6 +177,13 @@ class chatbot():
         self.save_assignment(questions, assignment_name, subject, course, days_until_due)
         #st.session_state[self.prefix + 'chat_history'] = [{'role': 'assistant', 'content': "Thanks! The assignment is being saved. Can I help with anything else?"}]
         return 'assignment_saved'
+
+      if json_command['function'] == "parse_answers":
+        questions = json_command['questions']
+        answers = json_command['answers']
+        bool_unassisted = json_command['bool_unassisted']
+        self.save_responses(questions, answers, bool_unassisted, self.assignment_id, self.student_id)
+        return 'responses_saved'
 
 
   def hard_guardrail(self,system_message,chat_history ):
