@@ -167,9 +167,9 @@ class chatbot():
 
   def run_functions_if_any(self):
     json_command = self.get_json_command(st.session_state[self.prefix + 'chat_history'])
-    print("Looking for JSON")
+    st.write("Looking for JSON")
     if json_command is not None:
-      print("Found some JSON")
+      st.write("Found some JSON")
       if json_command['function'] == "save_assignment":
         questions = json_command['questions']
         assignment_name = json_command['assignment_name']
@@ -181,7 +181,7 @@ class chatbot():
         return 'assignment_saved'
 
       if json_command['function'] == "parse_answers":
-        print("Parsing Answers")
+        st.write("Parsing Answers")
         questions = json_command['questions']
         answers = json_command['answers']
         bool_unassisted = json_command['bool_unassisted']
