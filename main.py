@@ -1,7 +1,5 @@
 import streamlit as st
 
-# Set the page title and layout
-st.set_page_config(page_title='AI Education Samples', layout='wide')
 
 # Set a custom theme
 st.set_page_config(
