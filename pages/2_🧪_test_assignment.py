@@ -32,12 +32,12 @@ def get_assignments_as_dataframe(key='assignments'):
 qp = st.experimental_get_query_params()
 if 'assignment_id' in qp:
   assignment_id = str(qp['assignment_id'][0]).zfill(3)
-  if len(assignment_id) == 3
-  df_activities = get_assignments_as_dataframe(key='activities')
-  df_activities['assignment_id'] = df_activities['assignment_id'].apply(lambda i: str(i).zfill(3))
-  df_activities = df_activities[df_activities['assignment_id'] == assignment_id].iloc[0]
-  course,topic,subtopic,focus,hard_guardrail,prompt,first_message,assignment_id = df_activities
-  chatbot(focus, hard_guardrail, first_message, prompt, prefix='student_' )
+  if len(assignment_id) == 3:
+    df_activities = get_assignments_as_dataframe(key='activities')
+    df_activities['assignment_id'] = df_activities['assignment_id'].apply(lambda i: str(i).zfill(3))
+    df_activities = df_activities[df_activities['assignment_id'] == assignment_id].iloc[0]
+    course,topic,subtopic,focus,hard_guardrail,prompt,first_message,assignment_id = df_activities
+    chatbot(focus, hard_guardrail, first_message, prompt, prefix='student_' )
 
 
 
