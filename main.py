@@ -38,10 +38,12 @@ with col2:
 
 st.subheader('Prebuilt quizzes')
 
-with col1:
+col1a, col2a = st.columns(2)
+
+with col1a:
     st.markdown("[Physics (force)](https://chatbox.streamlit.app/test_assignment?assignment_id=4764886)", unsafe_allow_html=True)
 
-with col2:
+with col2a:
     st.markdown("[Revolutionary War](https://chatbox.streamlit.app/test_assignment?assignment_id=5598895)", unsafe_allow_html=True)
 
 st.header('Build your own quiz')
