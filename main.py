@@ -8,15 +8,18 @@ st.set_page_config(
     page_title="AI Education Samples",
     layout="wide",
     initial_sidebar_state="expanded",
-    page_icon="📚",
-    theme={
-        "primaryColor": "#0D8BF0",
-        "backgroundColor": "#F0F0F0",
-        "secondaryBackgroundColor": "#F0F0F0",
-        "textColor": "#333333",
-        "font": "sans-serif"
-    }
+    page_icon="📚"
 )
+
+
+#theme={
+#        "primaryColor": "#0D8BF0",
+#        "backgroundColor": "#F0F0F0",
+#        "secondaryBackgroundColor": "#F0F0F0",
+#        "textColor": "#333333",
+#        "font": "sans-serif"
+#    }
+
 
 st.title('Artificial Intelligence - Education Samples')
 
