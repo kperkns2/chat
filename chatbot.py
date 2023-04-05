@@ -180,8 +180,8 @@ class chatbot():
         st.write("Parsing Answers")
         questions = json_command['questions']
         answers = json_command['answers']
-        bool_bool_hint = json_command['bool_bool_hint']
-        self.save_responses(questions, answers, bool_bool_hint, self.assignment_id, self.student_id)
+        bool_hint = json_command['bool_hint']
+        self.save_responses(questions, answers, bool_hint, self.assignment_id, self.student_id)
         return 'responses_saved'
 
 
