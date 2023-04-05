@@ -23,11 +23,11 @@ hard_focus = prompt_worksheet.cell(4, 2).value
 if 'assignment_id' in st.session_state:
   st.write("Link to assignment: https://chatbox.streamlit.app/test_assignment/?assignment_id="+st.session_state['assignment_id'])
 else:
-  chatbot(spreadsheet, 
-    bool_focus, 
+  chatbot(bool_focus, 
     hard_focus,
     first_assistant_message, 
     str_prompt, 
     prefix='teacher_', 
     assistant_role='AI', 
-    user_role='Teacher')
+    user_role='Teacher',
+    spreadsheet=spreadsheet)

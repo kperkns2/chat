@@ -11,7 +11,7 @@ import random
 
 
 class chatbot():
-  def __init__(self, spreadsheet, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student'):
+  def __init__(self, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student', spreadsheet=None):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.hard_focus = hard_focus
