@@ -79,8 +79,6 @@ class chatbot():
           placeholder_chat_history.empty()
           st.experimental_rerun()
 
-        
-
 
 
   def post_conversation(self):
@@ -129,12 +127,12 @@ class chatbot():
       st.session_state['assignment_id'] = assignment_id
       st.session_state['task_completed'] = True
 
-  def save_responses(self, questions, answers, bool_unassisted, assignment_id, student_id):
+  def save_responses(self, questions, answers, bool_hint, assignment_id, student_id):
       spreadsheet = self.spreadsheet
       worksheet = spreadsheet.worksheet('responses')
       
       # Append each question to the Google Sheet
-      row = ["|||".join(questions),"|||".join(answers),"|||".join([str(b).upper() for b in bool_unassisted]),   assignment_id, student_id]
+      row = ["|||".join(questions),"|||".join(answers),"|||".join([str(b).upper() for b in bool_hint]),   assignment_id, student_id]
       worksheet.append_row(row)
       st.session_state['task_completed'] = True
       
@@ -184,8 +182,8 @@ class chatbot():
         st.write("Parsing Answers")
         questions = json_command['questions']
         answers = json_command['answers']
-        bool_unassisted = json_command['bool_unassisted']
-        self.save_responses(questions, answers, bool_unassisted, self.assignment_id, self.student_id)
+        bool_bool_hint = json_command['bool_bool_hint']
+        self.save_responses(questions, answers, bool_bool_hint, self.assignment_id, self.student_id)
         return 'responses_saved'
 
 
