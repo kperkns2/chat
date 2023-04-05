@@ -134,7 +134,7 @@ class chatbot():
       worksheet = spreadsheet.worksheet('responses')
       
       # Append each question to the Google Sheet
-      row = ["|||".join(questions),"|||".join(answers),"|||".join(bool_unassisted),   assignment_id, student_id]
+      row = ["|||".join(questions),"|||".join(answers),"|||".join([str(b).upper() for b in bool_unassisted]),   assignment_id, student_id]
       worksheet.append_row(row)
       st.session_state['task_completed'] = True
       
