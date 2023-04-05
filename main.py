@@ -3,14 +3,14 @@ import streamlit as st
 st.title('Artificial intelligence - education samples')
 
 st.header('Test out some assignments 👍')
-st.subtopic('Prebuilt activities')
+st.subheader('Prebuilt activities')
 st.markdown("[Beginner Spanish Conversation](https://chatbox.streamlit.app/test_assignment?assignment_id=0)")
 st.markdown("[Intermediate Spanish Conversation](https://chatbox.streamlit.app/test_assignment?assignment_id=1)")
 st.markdown("[Algebra I](https://chatbox.streamlit.app/test_assignment?assignment_id=2)")
 st.markdown("[Physics (Mechanics)](https://chatbox.streamlit.app/test_assignment?assignment_id=3)")
 st.markdown("[Debate](https://chatbox.streamlit.app/test_assignment?assignment_id=4)")
 
-st.subtopic('Prebuilt quizes')
+st.subheader('Prebuilt quizes')
 st.markdown("[Physics (force)](https://chatbox.streamlit.app/test_assignment?assignment_id=4764886)")
 st.markdown("[Revolutionary War](https://chatbox.streamlit.app/test_assignment?assignment_id=5598895)")
 
