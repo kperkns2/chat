@@ -19,8 +19,9 @@ st.markdown("[Revolutionary War](https://chatbox.streamlit.app/test_assignment?a
 st.header('Build your own quiz')
 st.markdown("Create a [new quiz](https://chatbox.streamlit.app/create_assignment)")
 
+st.markdown("""
 Pick a topic and chat with the AI to refine the questions. 
  - You can say things like 'make them all multiple choice'
  - Write 5 more questions
  - Only keep questions 1,2 and 4
- - You can pass in class notes, a video transcript or any raw text as a guide for creating questions
+ - You can pass in class notes, a video transcript or any raw text as a guide for creating questions""")
