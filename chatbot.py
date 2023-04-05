@@ -101,14 +101,12 @@ class chatbot():
 
 
   def get_json_command(self, ongoing_conversation):
-    try:
-      assistant_messages = [c['content'] for c in ongoing_conversation[1:] if c['role'] == 'assistant']
-      assistant_json = [c for c in assistant_messages if len(c.split('|||')) >= 3 ]
-      if len(assistant_json) > 0:
-        assistant_json = [c.split('|||')[1] for c in assistant_json][-1]
-        return json.loads(assistant_json)
-    except:
-      print("Failed to load JSON")
+    assistant_messages = [c['content'] for c in ongoing_conversation[1:] if c['role'] == 'assistant']
+    assistant_json = [c for c in assistant_messages if len(c.split('|||')) >= 3 ]
+    if len(assistant_json) > 0:
+      assistant_json = [c.split('|||')[1] for c in assistant_json][-1]
+      return json.loads(assistant_json)
+
 
   def save_assignment(self, questions, assignment_name, subject, course, days_until_due=None):
       spreadsheet = self.spreadsheet
