@@ -18,7 +18,7 @@ spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 # Load all assignements
 def get_assignments_as_dataframe(key='assignments'):
     global spreadsheet
-    worksheet = spreadsheet.worksheet()
+    worksheet = spreadsheet.worksheet(key)
     # Get all records from the worksheet
     records = worksheet.get_all_records()
     # Convert the records to a pandas DataFrame
