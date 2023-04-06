@@ -49,7 +49,7 @@ def plot_help_percentage(df_reports):
     total_counts = df_reports.groupby('questions')['bool_hint'].count()
     
     # Calculate the percentage of students needing help for each question
-    help_percentage = (help_counts / total_counts) * 100
+    help_percentage = ((help_counts / total_counts) * 100).round()
 
     st.write(help_percentage)
     
@@ -60,6 +60,8 @@ def plot_help_percentage(df_reports):
     fig.update_layout(title='Percentage of Students Needing Help per Question',
                       xaxis_title='Questions',
                       yaxis_title='Percentage of Students Needing Help',
+                      width='1000',
+                      height='600',
                       xaxis_tickangle=-45)
     
     # Show the graph in Streamlit
