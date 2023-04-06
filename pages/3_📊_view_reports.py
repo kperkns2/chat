@@ -34,7 +34,7 @@ def get_reports_as_dataframe():
     df['questions'] =  df[['questions','question_number']].apply(lambda i: i[0][i[1]],axis=1)
     df['answers'] =  df[['answers','question_number']].apply(lambda i: i[0][i[1]],axis=1)
     df['bool_hint'] =  df[['bool_hint','question_number']].apply(lambda i: i[0][i[1]],axis=1)
-
+    df = df.drop('question_number', axis=1)
     #df = df.explode('questions')
     #df = df.explode('answers')
     #df = df.explode('bool_hint')
