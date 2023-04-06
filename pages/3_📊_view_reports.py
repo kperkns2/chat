@@ -28,7 +28,7 @@ def get_reports_as_dataframe():
     df['answers'] = df['answers'].apply(lambda x: x.split('|||'))
     df['bool_hint'] = df['bool_hint'].apply(lambda x: x.split('|||'))
     df['blocked_questions'] = df['blocked_questions'].apply(lambda x: x.split('|||'))
-
+    df = df.explode('question_number')
     df['question_number'] = df['questions'].apply(lambda i: list(range(len(i))))
     df['questions'] =  df[['questions','question_number']].apply(lambda i: i[0][i[1]],axis=1)
     df['answers'] =  df[['answers','question_number']].apply(lambda i: i[0][i[1]],axis=1)
