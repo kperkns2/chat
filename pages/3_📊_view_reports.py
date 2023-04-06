@@ -3,6 +3,7 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
+import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide", page_title="View Reports", page_icon="💬")
 
@@ -35,6 +36,27 @@ def display_report(df_filtered):
         st.write(f"Blocked Questions: {row['blocked_questions']}")
         st.write("-----")
 
+
+
+def plot_help_percentage(df_reports):
+    # Count the number of students who needed help for each question
+    help_counts = df_reports[df_reports['needed_help'] == True].groupby('questions')['needed_help'].count()
+    
+    # Count the total number of students for each question
+    total_counts = df_reports.groupby('questions')['needed_help'].count()
+    
+    # Calculate the percentage of students needing help for each question
+    help_percentage = (help_counts / total_counts) * 100
+    
+    # Plot the bar graph
+    help_percentage.plot(kind='bar', figsize=(15, 6), color='#1F77B4')
+    plt.xlabel('Questions')
+    plt.ylabel('Percentage of Students Needing Help')
+    plt.title('Percentage of Students Needing Help per Question')
+    plt.xticks(rotation=45, ha='right')
+    plt.show()
+
+
 def main():
     st.header("View Reports")
 
@@ -49,5 +71,7 @@ def main():
         df_filtered = df_reports
 
     display_report(df_filtered)
+    plot_help_percentage(df_reports)
+
 
 main()
