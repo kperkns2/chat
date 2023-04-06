@@ -60,8 +60,8 @@ def plot_help_percentage(df_reports):
     fig.update_layout(title='Percentage of Students Needing Help per Question',
                       xaxis_title='Questions',
                       yaxis_title='Percentage of Students Needing Help',
-                      width=800,
-                      height=1500,
+                      width=600,
+                      height=1200,
                       xaxis_tickangle=-45)
     
     # Show the graph in Streamlit
