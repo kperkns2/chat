@@ -24,7 +24,12 @@ def get_reports_as_dataframe():
     # Split the columns with '|||' delimiter
     df['questions'] = df['questions'].apply(lambda x: x.split('|||'))
     df['answers'] = df['answers'].apply(lambda x: x.split('|||'))
+    df['bool_hint'] = df['bool_hint'].apply(lambda x: x.split('|||'))
     df['blocked_questions'] = df['blocked_questions'].apply(lambda x: x.split('|||'))
+
+    df = df.explode('questions')
+    df = df.explode('answers')
+    df = df.explode('bool_hint')
     
     return df
 
