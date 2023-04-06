@@ -60,7 +60,7 @@ def plot_help_percentage(df_reports):
     fig.update_layout(title='Percentage of Students Needing Help per Question',
                       xaxis_title='Questions',
                       yaxis_title='Percentage of Students Needing Help',
-                      width=1000,
+                      width=800,
                       height=1500,
                       xaxis_tickangle=-45)
     
