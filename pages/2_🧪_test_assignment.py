@@ -78,9 +78,9 @@ def main():
   # Run the assignment
   if 'assignment_name' in st.session_state:
     assignment_name = st.session_state['assignment_name']
-
     df_current_assignment = df_assignments[df_assignments['assignment_name'] == assignment_name]
     assignment_questions = df_current_assignment['question_text'].tolist()
+    first_assistant_message += (' ' + assignment_questions[0])
     str_prompt = str_prompt.format(assignment_questions)
     
     chatbot(bool_focus, 
