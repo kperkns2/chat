@@ -43,7 +43,7 @@ def display_report(df_filtered):
 
 def plot_help_percentage(df_reports):
     # Count the number of students who needed help for each question
-    help_counts = df_reports[df_reports['bool_hint'] == True].groupby('questions')['bool_hint'].count()
+    help_counts = df_reports[str(df_reports['bool_hint']).upper() == 'TRUE'].groupby('questions')['bool_hint'].count()
     
     # Count the total number of students for each question
     total_counts = df_reports.groupby('questions')['bool_hint'].count()
