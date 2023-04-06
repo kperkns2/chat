@@ -18,16 +18,21 @@ def get_reports_as_dataframe():
     worksheet = spreadsheet.worksheet('reports')
     records = worksheet.get_all_records()
     df = pd.DataFrame(records)
+    
+    # Split the columns with '|||' delimiter
+    df['questions'] = df['questions'].apply(lambda x: x.split('|||'))
+    df['answers'] = df['answers'].apply(lambda x: x.split('|||'))
+    df['blocked_questions'] = df['blocked_questions'].apply(lambda x: x.split('|||'))
+    
     return df
 
 def display_report(df_filtered):
     for idx, row in df_filtered.iterrows():
         st.subheader(f"Student ID: {row['student_id']}")
         st.write(f"Assignment: {row['assignment_name']}")
-        st.write(f"Question: {row['question_text']}")
-        st.write(f"Student Answer: {row['student_answer']}")
-        st.write(f"Needed Help: {row['needed_help']}")
-        st.write(f"Hard Guardrail Activated: {row['hard_guardrail_activated']}")
+        st.write(f"Questions: {row['questions']}")
+        st.write(f"Answers: {row['answers']}")
+        st.write(f"Blocked Questions: {row['blocked_questions']}")
         st.write("-----")
 
 def main():

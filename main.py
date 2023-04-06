@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="AI Education Samples",
     layout="wide",
     initial_sidebar_state="expanded",
-    page_icon="📚"
+    page_icon="💬"
 )
 
 
