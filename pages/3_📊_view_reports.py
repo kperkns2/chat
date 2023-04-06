@@ -76,15 +76,21 @@ def main():
 
     df_reports = get_reports_as_dataframe()
     student_ids = df_reports['student_id'].unique().tolist()
+    assignment_names = df_reports['assignment_name'].unique().tolist()
+    selected_assignment = st.selectbox("Choose an assignemnt", assignment_names)
+
+    df_filtered = df_reports[df_reports['assignment_name'] == selected_assignment]
+    plot_help_percentage(df_filtered)
+
 
     filter_by = st.selectbox("Filter by", ["Student ID", "All"])
     if filter_by == "Student ID":
         selected_student_id = st.selectbox("Select Student ID", student_ids)
-        df_filtered = df_reports[df_reports['student_id'] == selected_student_id]
+        df_filtered = df_filtered[df_filtered['student_id'] == selected_student_id]
     else:
-        df_filtered = df_reports
+        df_filtered = df_filtered
 
-    plot_help_percentage(df_reports)
+    
     display_report(df_filtered)
     
 
