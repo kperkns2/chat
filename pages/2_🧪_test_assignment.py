@@ -16,6 +16,7 @@ spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 
 # Load all assignements
+@st.cache_data
 def get_assignments_as_dataframe(key='assignments'):
     global spreadsheet
     worksheet = spreadsheet.worksheet(key)
@@ -43,13 +44,15 @@ def main():
 
 
   # Load the prompts
-  prompt_assignment = spreadsheet.worksheet('take_assignment_prompt')
-  str_prompt = prompt_assignment.cell(1, 2).value
-  first_assistant_message = prompt_assignment.cell(2, 2).value
-  bool_focus = prompt_assignment.cell(3, 2).value
-  hard_focus = prompt_assignment.cell(4, 2).value
-
-
+  def load_prompt():
+    prompt_assignment = spreadsheet.worksheet('take_assignment_prompt')
+    str_prompt = prompt_assignment.cell(1, 2).value
+    first_assistant_message = prompt_assignment.cell(2, 2).value
+    bool_focus = prompt_assignment.cell(3, 2).value
+    hard_focus = prompt_assignment.cell(4, 2).value
+    return str_prompt, first_assistant_message, bool_focus, hard_focus
+    
+  str_prompt, first_assistant_message, bool_focus, hard_focus = load_prompt()
   df_assignments = get_assignments_as_dataframe()
   assignment_names = df_assignments['assignment_name'].unique().tolist()
 
