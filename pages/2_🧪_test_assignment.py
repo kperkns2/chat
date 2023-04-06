@@ -77,6 +77,14 @@ def main():
     df_current_assignment = df_assignments[df_assignments['assignment_name'] == st.session_state['assignment_name']]
     assignment_questions = df_current_assignment['question_text'].tolist()
     str_prompt = str_prompt.format(assignment_questions)
-    chatbot(bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='student_', spreadsheet=spreadsheet, assignment_id=assignment_id)
+    
+    chatbot(bool_focus, 
+      hard_focus, 
+      first_assistant_message, 
+      str_prompt, 
+      prefix='student_', 
+      spreadsheet=spreadsheet, 
+      assignment_id=assignment_id, 
+      assignment_name=assignment_name)
 
 main()

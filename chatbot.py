@@ -11,7 +11,7 @@ import random
 
 
 class chatbot():
-  def __init__(self, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student', spreadsheet=None, assignment_id=None):
+  def __init__(self, bool_focus, hard_focus, first_assistant_message, str_prompt, prefix='', replace={}, assistant_role='Tutor', user_role='Student', spreadsheet=None, assignment_id=None, assignment_name=None):
     self.spreadsheet = spreadsheet
     self.bool_focus = bool_focus
     self.hard_focus = hard_focus
@@ -21,10 +21,15 @@ class chatbot():
     self.replace = replace
     if assignment_id is not None:
       self.assignment_id = assignment_id
+    if assignment_name is not None:
+      self.assignment_name = assignment_name
     self.student_id = 5
 
     if 'task_completed' in st.session_state:
       return
+
+    if 'blocked_questions' not in st.session_state:
+      st.session_state['blocked_questions'] = []
 
     st.session_state[self.prefix + 'assistant_role'] = assistant_role
     st.session_state[self.prefix + 'user_role'] = user_role
@@ -125,12 +130,20 @@ class chatbot():
       st.session_state['assignment_id'] = assignment_id
       st.session_state['task_completed'] = True
 
-  def save_responses(self, questions, answers, bool_hint, assignment_id, student_id):
+  def save_responses(self, questions, answers, bool_hint, assignment_id, assignment_name, student_id):
       spreadsheet = self.spreadsheet
       worksheet = spreadsheet.worksheet('responses')
+
+      bq = st.session_state['blocked_questions']
       
       # Append each question to the Google Sheet
-      row = ["|||".join(questions),"|||".join(answers),"|||".join([str(b).upper() for b in bool_hint]),   assignment_id, student_id]
+      row = ["|||".join(questions),
+        "|||".join(answers),
+        "|||".join([str(b).upper() for b in bool_hint]),   
+        assignment_id, assignment_name, 
+        student_id,
+        "|||".join(bq)]
+        
       worksheet.append_row(row)
       st.session_state['task_completed'] = True
       
@@ -181,7 +194,7 @@ class chatbot():
         questions = json_command['questions']
         answers = json_command['answers']
         bool_hint = json_command['bool_hint']
-        self.save_responses(questions, answers, bool_hint, self.assignment_id, self.student_id)
+        self.save_responses(questions, answers, bool_hint, self.assignment_id, self.assignment_name, self.student_id)
         return 'responses_saved'
 
 
@@ -210,6 +223,7 @@ class chatbot():
         messages = [{"role": "system", "content": new_system}])
       response = completion['choices'][0]['message']['content']
       if 'TRUE' in str(response).upper():
+        st.session_state['blocked_questions'] += [chat_history[-1]['content']]
         return True
       else:
         return False
