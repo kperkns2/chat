@@ -44,6 +44,7 @@ def main():
 
 
   # Load the prompts
+  @st.cache_data
   def load_prompt():
     prompt_assignment = spreadsheet.worksheet('take_assignment_prompt')
     str_prompt = prompt_assignment.cell(1, 2).value
@@ -51,7 +52,7 @@ def main():
     bool_focus = prompt_assignment.cell(3, 2).value
     hard_focus = prompt_assignment.cell(4, 2).value
     return str_prompt, first_assistant_message, bool_focus, hard_focus
-    
+
   str_prompt, first_assistant_message, bool_focus, hard_focus = load_prompt()
   df_assignments = get_assignments_as_dataframe()
   assignment_names = df_assignments['assignment_name'].unique().tolist()
