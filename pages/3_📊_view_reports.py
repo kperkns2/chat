@@ -16,7 +16,7 @@ spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
 def get_reports_as_dataframe():
     global spreadsheet
-    worksheet = spreadsheet.worksheet('reports')
+    worksheet = spreadsheet.worksheet('responses')
     records = worksheet.get_all_records()
     df = pd.DataFrame(records)
     
