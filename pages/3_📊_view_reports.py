@@ -37,7 +37,11 @@ def get_reports_as_dataframe():
     return df
 
 def display_report(df_filtered):
-    st.write(df_filtered)
+    df_tmp = df_filtered.drop('index',axis=1)
+
+    df_tmp.columns = ['Questions','Answers','Hint Needed','assignment_id','assignment_name','student_id','Blocked Messages']
+
+    st.write(df_tmp)
 
 
 
