@@ -24,10 +24,10 @@ def get_reports_as_dataframe():
     df['assignment_id'] = df['assignment_id'].astype('str')
     
     # Split the columns with '|||' delimiter
-    df['questions'] = df['questions'].apply(lambda x: x.split('|||'))
-    df['answers'] = df['answers'].apply(lambda x: x.split('|||'))
-    df['bool_hint'] = df['bool_hint'].apply(lambda x: x.split('|||'))
-    df['blocked_questions'] = df['blocked_questions'].apply(lambda x: x.split('|||'))
+    df['questions'] = df['questions'].astype('str').apply(lambda x: x.split('|||'))
+    df['answers'] = df['answers'].astype('str').apply(lambda x: x.split('|||'))
+    df['bool_hint'] = df['bool_hint'].astype('str').apply(lambda x: x.split('|||'))
+    df['blocked_questions'] = df['blocked_questions'].astype('str').apply(lambda x: x.split('|||'))
     
     df['question_number'] = df['questions'].apply(lambda i: list(range(len(i))))
     df = df.explode('question_number')
