@@ -41,7 +41,7 @@ def display_report(df_filtered):
 
     df_tmp.columns = ['Questions','Answers','Hint Needed','assignment_id','assignment_name','student_id','Blocked Messages']
 
-    st.dataframe(df_tmp, index=False)
+    st.dataframe(df_tmp)
 
 
 
