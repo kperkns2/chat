@@ -3,7 +3,8 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json 
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import plotly.express as px
 
 st.set_page_config(layout="wide", page_title="View Reports", page_icon="💬")
 
@@ -48,13 +49,18 @@ def plot_help_percentage(df_reports):
     # Calculate the percentage of students needing help for each question
     help_percentage = (help_counts / total_counts) * 100
     
-    # Plot the bar graph
-    help_percentage.plot(kind='bar', figsize=(15, 6), color='#1F77B4')
-    plt.xlabel('Questions')
-    plt.ylabel('Percentage of Students Needing Help')
-    plt.title('Percentage of Students Needing Help per Question')
-    plt.xticks(rotation=45, ha='right')
-    plt.show()
+    # Create the bar graph using Plotly
+    fig = go.Figure(data=[go.Bar(x=help_percentage.index, y=help_percentage.values, text=help_percentage.values, textposition='auto')])
+    
+    # Customize the appearance
+    fig.update_layout(title='Percentage of Students Needing Help per Question',
+                      xaxis_title='Questions',
+                      yaxis_title='Percentage of Students Needing Help',
+                      xaxis_tickangle=-45)
+    
+    # Show the graph in Streamlit
+    st.plotly_chart(fig)
+
 
 
 def main():
