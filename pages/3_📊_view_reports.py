@@ -50,8 +50,6 @@ def plot_help_percentage(df_reports):
     
     # Calculate the percentage of students needing help for each question
     help_percentage = ((help_counts / total_counts) * 100).round()
-
-    st.write(help_percentage)
     
     # Create the bar graph using Plotly
     fig = go.Figure(data=[go.Bar(x=help_percentage.index, y=help_percentage.values, text=help_percentage.values, textposition='auto')])
@@ -82,8 +80,9 @@ def main():
     else:
         df_filtered = df_reports
 
-    display_report(df_filtered)
     plot_help_percentage(df_reports)
+    display_report(df_filtered)
+    
 
 
 main()
