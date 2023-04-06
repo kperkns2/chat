@@ -34,13 +34,7 @@ def get_reports_as_dataframe():
     return df
 
 def display_report(df_filtered):
-    for idx, row in df_filtered.iterrows():
-        st.subheader(f"Student ID: {row['student_id']}")
-        st.write(f"Assignment: {row['assignment_name']}")
-        st.write(f"Questions: {row['questions']}")
-        st.write(f"Answers: {row['answers']}")
-        st.write(f"Blocked Questions: {row['blocked_questions']}")
-        st.write("-----")
+    st.write(df_filtered)
 
 
 
