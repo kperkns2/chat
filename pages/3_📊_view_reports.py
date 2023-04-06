@@ -30,6 +30,8 @@ def get_reports_as_dataframe():
     df = df.explode('questions')
     df = df.explode('answers')
     df = df.explode('bool_hint')
+
+    df = df.reset_index().drop_duplicates(subset=['index','questions'])
     
     return df
 
