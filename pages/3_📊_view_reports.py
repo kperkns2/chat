@@ -20,6 +20,7 @@ def get_reports_as_dataframe():
     worksheet = spreadsheet.worksheet('responses')
     records = worksheet.get_all_records()
     df = pd.DataFrame(records)
+    df['assignment_id'] = df['assignment_id'].astype('str')
     
     # Split the columns with '|||' delimiter
     df['questions'] = df['questions'].apply(lambda x: x.split('|||'))
@@ -49,6 +50,8 @@ def plot_help_percentage(df_reports):
     
     # Calculate the percentage of students needing help for each question
     help_percentage = (help_counts / total_counts) * 100
+
+    print(help_percentage)
     
     # Create the bar graph using Plotly
     fig = go.Figure(data=[go.Bar(x=help_percentage.index, y=help_percentage.values, text=help_percentage.values, textposition='auto')])
