@@ -29,11 +29,15 @@ def get_reports_as_dataframe():
     df['bool_hint'] = df['bool_hint'].apply(lambda x: x.split('|||'))
     df['blocked_questions'] = df['blocked_questions'].apply(lambda x: x.split('|||'))
 
-    df = df.explode('questions')
-    df = df.explode('answers')
-    df = df.explode('bool_hint')
+    df['question_number'] = df['questions'].apply(lambda i: list(range(len(i))))
+    df['questions'] =  df[['questions','question_number']].apply(lambda i: i[0][i[1]],axis=1)
+    df['answers'] =  df[['answers','question_number']].apply(lambda i: i[0][i[1]],axis=1)
+    df['bool_hint'] =  df[['bool_hint','question_number']].apply(lambda i: i[0][i[1]],axis=1)
 
-    df = df.reset_index().drop_duplicates(subset=['index','questions'])
+    #df = df.explode('questions')
+    #df = df.explode('answers')
+    #df = df.explode('bool_hint')
+    #df = df.reset_index().drop_duplicates(subset=['index','questions'])
     
     return df
 
