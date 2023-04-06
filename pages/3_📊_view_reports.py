@@ -15,6 +15,7 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 gc = gspread.authorize(credentials)
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
 
+@st.cache_data()
 def get_reports_as_dataframe():
     global spreadsheet
     worksheet = spreadsheet.worksheet('responses')
