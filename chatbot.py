@@ -159,9 +159,9 @@ class chatbot():
     
     for message in st.session_state[self.prefix + 'chat_history']:
         if message['role'] == 'user':
-            st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px; style="white-space: pre-line";'><font color='black'><b>{user_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px; white-space: pre-line;'><font color='black'><b>{user_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD; style="white-space: pre-line";'><font color='black'"><b>{assistant_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD; white-space: pre-line;'><font color='black'"><b>{assistant_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
 
   # Create a function to add messages to the chat history
   def add_to_chat_history(self, sender, message):
