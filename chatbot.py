@@ -8,6 +8,7 @@ from gspread_dataframe import set_with_dataframe
 import datetime
 import openai
 import random
+import streamlit.components.v1 as components
 
 
 class chatbot():
@@ -56,6 +57,26 @@ class chatbot():
     st.markdown("---") 
     st.write("#")
     
+
+    #This looks for any input box and applies the code to it to stop default behavior when focus is lost
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        const inputs = doc.querySelectorAll('input');
+
+        inputs.forEach(input => {
+        input.addEventListener('focusout', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            console.log("lost focus")
+        });
+        });
+
+        </script>""",
+        height=0,
+        width=0,
+    )
     
 
     def submit():
