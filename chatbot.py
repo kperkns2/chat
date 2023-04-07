@@ -84,6 +84,8 @@ class chatbot():
           placeholder_chat_history.empty()
           st.experimental_rerun()
 
+
+
   def post_conversation(self):
 
     assistant_role = st.session_state[self.prefix + 'assistant_role']
@@ -102,12 +104,14 @@ class chatbot():
         else:
             worksheet.update_cell(i+1, st.session_state[self.prefix + 'col_num'], f"{assistant_role} - {message['content']}")
 
+
   def get_json_command(self, ongoing_conversation):
     assistant_messages = [c['content'] for c in ongoing_conversation[1:] if c['role'] == 'assistant']
     assistant_json = [c for c in assistant_messages if len(c.split('|||')) >= 3 ]
     if len(assistant_json) > 0:
       assistant_json = [c.split('|||')[1] for c in assistant_json][-1]
       return json.loads(assistant_json)
+
 
   def save_assignment(self, questions, assignment_name, subject, course, days_until_due=None):
       spreadsheet = self.spreadsheet
@@ -143,6 +147,7 @@ class chatbot():
       worksheet.append_row(row)
       st.session_state['task_completed'] = True
       
+
   def calculate_due_date(self, days_until_due):
       if days_until_due is None:
           return "2099-01-01"
@@ -159,13 +164,15 @@ class chatbot():
     
     for message in st.session_state[self.prefix + 'chat_history']:
         if message['role'] == 'user':
-            st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px; white-space: pre-line;'><font color='black'><b>{user_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: white; padding: 10px; border-radius: 5px;'><font color='black'><b>{user_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD; white-space: pre-line;'><font color='black'"><b>{assistant_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: #F7F7F7; padding: 10px; border-radius: 5px; border: 1px solid #DDDDDD;'><font color='black'><b>{assistant_role} - </b>{message['content']}</font></div>", unsafe_allow_html=True)
+
 
   # Create a function to add messages to the chat history
   def add_to_chat_history(self, sender, message):
       st.session_state[self.prefix + 'chat_history'].append({'role': sender, 'content': message})
+
 
   def run_functions_if_any(self):
     json_command = self.get_json_command(st.session_state[self.prefix + 'chat_history'])
@@ -189,6 +196,7 @@ class chatbot():
         bool_hint = json_command['bool_hint']
         self.save_responses(questions, answers, bool_hint, self.assignment_id, self.assignment_name, self.student_id)
         return 'responses_saved'
+
 
   def hard_guardrail(self,system_message,chat_history ):
 
@@ -220,6 +228,8 @@ class chatbot():
       else:
         return False
       
+
+
   def generate_response(self):
 
     if len(self.str_prompt) > 2:
