@@ -6,14 +6,12 @@ import json
 from chatbot import chatbot, chatbot_select
 st.set_page_config(layout="wide",page_title="Test assignment",page_icon="💬")
 
-
 # Set up credentials to access the Google Sheet
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 cred = json.loads(st.secrets['sheets_cred'], strict=False)
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(cred, scope)
 gc = gspread.authorize(credentials)
 spreadsheet = gc.open_by_key(st.secrets['rockwood_sheet'])
-
 
 # Load all assignements
 @st.cache_data
@@ -25,7 +23,6 @@ def get_assignments_as_dataframe(key='assignments'):
     # Convert the records to a pandas DataFrame
     df = pd.DataFrame(records)
     return df
-
 
 def main():
   st.header('Education AI')
@@ -41,7 +38,6 @@ def main():
       course,topic,subtopic,focus,hard_guardrail,prompt,first_message,assignment_id = df_activities
       chatbot(focus, hard_guardrail, first_message, prompt, prefix='activity_' )
       return 
-
 
   # Load the prompts
   @st.cache_data
@@ -74,13 +70,12 @@ def main():
     st.session_state['assignment_name'] = 'Civil War Quiz'
     st.session_state['assignment_id'] = '-1'
 
-
   # Run the assignment
   if 'assignment_name' in st.session_state:
     assignment_name = st.session_state['assignment_name']
     df_current_assignment = df_assignments[df_assignments['assignment_name'] == assignment_name]
     assignment_questions = df_current_assignment['question_text'].tolist()
-    first_assistant_message = f'Hi! You are taking the following quiz - {assignment_name}. Your first question is "{assignment_questions[0]}"' 
+    first_assistant_message = f'Hi! You are taking the following quiz - {assignment_name}. Here's your first question. {assignment_questions[0]}' 
     str_prompt = str_prompt.format(assignment_questions)
     
     chatbot(bool_focus, 
