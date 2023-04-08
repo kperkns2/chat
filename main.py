@@ -35,6 +35,7 @@ with col2:
     st.markdown("[Physics (Mechanics)](https://chatbox.streamlit.app/test_assignment?assignment_id=3)", unsafe_allow_html=True)
     st.markdown("[Debate](https://chatbox.streamlit.app/test_assignment?assignment_id=4)", unsafe_allow_html=True)
     st.markdown("[Open QA](https://chatbox.streamlit.app/test_assignment?assignment_id=5)", unsafe_allow_html=True)
+    st.markdown("[Sales Practice](https://chatbox.streamlit.app/test_assignment?assignment_id=6)", unsafe_allow_html=True)
 
 st.subheader('Prebuilt quizzes')
 
